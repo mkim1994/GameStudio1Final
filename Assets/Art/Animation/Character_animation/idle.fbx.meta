@@ -1,0 +1,237 @@
+fileFormatVersion: 2
+guid: 9e6733ce265f2fe469520ad1f2e47b69
+timeCreated: 1478923503
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: body
+    100002: eyes
+    100004: eyes1
+    100006: hair
+    100008: hand1
+    100010: hand2
+    100012: //RootNode
+    100014: joint1
+    100016: joint2
+    100018: joint3
+    100020: joint4
+    100022: joint5
+    100024: joint6
+    100026: joint7
+    100028: ocurina
+    100030: polySurface10
+    100032: polySurface11
+    100034: polySurface12
+    100036: polySurface13
+    100038: polySurface5
+    100040: polySurface6
+    100042: polySurface7
+    100044: polySurface8
+    100046: polySurface9
+    400000: body
+    400002: eyes
+    400004: eyes1
+    400006: hair
+    400008: hand1
+    400010: hand2
+    400012: //RootNode
+    400014: joint1
+    400016: joint2
+    400018: joint3
+    400020: joint4
+    400022: joint5
+    400024: joint6
+    400026: joint7
+    400028: ocurina
+    400030: polySurface10
+    400032: polySurface11
+    400034: polySurface12
+    400036: polySurface13
+    400038: polySurface5
+    400040: polySurface6
+    400042: polySurface7
+    400044: polySurface8
+    400046: polySurface9
+    2300000: eyes
+    2300002: eyes1
+    2300004: hand1
+    2300006: hand2
+    2300008: ocurina
+    2300010: polySurface10
+    2300012: polySurface11
+    2300014: polySurface12
+    2300016: polySurface13
+    2300018: polySurface5
+    2300020: polySurface6
+    2300022: polySurface7
+    2300024: polySurface8
+    2300026: polySurface9
+    3300000: eyes
+    3300002: eyes1
+    3300004: hand1
+    3300006: hand2
+    3300008: ocurina
+    3300010: polySurface10
+    3300012: polySurface11
+    3300014: polySurface12
+    3300016: polySurface13
+    3300018: polySurface5
+    3300020: polySurface6
+    3300022: polySurface7
+    3300024: polySurface8
+    3300026: polySurface9
+    4300000: body
+    4300002: polySurface10
+    4300004: polySurface11
+    4300006: polySurface12
+    4300008: polySurface13
+    4300010: polySurface5
+    4300012: polySurface6
+    4300014: polySurface7
+    4300016: polySurface8
+    4300018: polySurface9
+    4300020: eyes
+    4300022: eyes1
+    4300024: ocurina
+    4300026: hand2
+    4300028: hand1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: body
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: body
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint2
+        weight: 1
+      - path: joint1/joint2/hand1
+        weight: 1
+      - path: joint1/joint2/hand2
+        weight: 1
+      - path: joint1/joint2/joint3
+        weight: 1
+      - path: joint1/joint2/joint3/eyes
+        weight: 1
+      - path: joint1/joint2/joint3/eyes1
+        weight: 1
+      - path: joint1/joint2/joint3/joint4
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface7
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface8
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface9
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface10
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface11
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface12
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/hair/polySurface13
+        weight: 1
+      - path: joint1/joint2/ocurina
+        weight: 1
+      - path: joint1/joint5
+        weight: 1
+      - path: joint1/joint5/joint6
+        weight: 1
+      - path: joint1/joint5/joint6/joint7
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
