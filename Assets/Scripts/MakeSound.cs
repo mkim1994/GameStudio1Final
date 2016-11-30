@@ -19,7 +19,7 @@ public class MakeSound : MonoBehaviour {
 	public TextAsset transitionMatrixFile;
 
 	public GameObject mainCamera;
-	private ClickBird clickBird;
+	//private ClickBird clickBird;
 	public GameObject birdGeneratorObj;
 	private BirdGenerator birdGenerator;
 
@@ -41,6 +41,9 @@ public class MakeSound : MonoBehaviour {
 	public List<int[]> tripletList;
 	private int note;
 	public bool ifFinish;
+
+	private int prevIndex;
+
 	// Use this for initialization
 	void Start () {
 		song = GetComponent<Songlist> ();
@@ -62,7 +65,11 @@ public class MakeSound : MonoBehaviour {
 		currentActiveTripletIndex = 0;
 		currentActiveNoteIndex = 0;
 		currentMaxTripletIndex = 0;
-		clickBird = birdGenerator.birdList[0].bird.GetComponent<ClickBird> ();
+		//clickBird = birdGenerator.birdList[0].bird.GetComponent<ClickBird> ();
+
+		prevIndex = 0;
+
+
 
 	}
 
@@ -106,6 +113,7 @@ public class MakeSound : MonoBehaviour {
 		currentLastNote = thirdNote;
 		tripletList.Add (triplet);
 		birdGenerator.AddNewBird (triplet);
+		//StartCoroutine (birdGenerator.birdList[birdGenerator.birdList.Count-1].bird.GetComponent<ClickBird>().playSong (true));
 	}
 
 	int GenerateNote(int lastNote){
@@ -128,6 +136,8 @@ public class MakeSound : MonoBehaviour {
 	}
 
 	void SoundKeyPressed(int i, bool octaveShift){
+
+		prevIndex = i;
 
 		if (!soundsources [i].isPlaying) {
 
@@ -159,7 +169,7 @@ public class MakeSound : MonoBehaviour {
 								currentMaxTripletIndex += 1;
 								currentActiveNoteIndex = 0;
 								currentActiveTripletIndex = 0;
-								StartCoroutine (clickBird.playSong (true));
+
 							} else {
 								ifFinish = true;
 								characterani.SetBool ("iscorrect", true);
@@ -182,22 +192,21 @@ public class MakeSound : MonoBehaviour {
 
 	void SoundLogic()
 	{
+
 		for (int i = 0; i < sounds.Length; i++) {
-			//if (Input.GetKeyDown (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
-			if (Input.GetKey(music_keys [i]) && Input.GetKey (KeyCode.Space)) {
-				//audioSource.pitch = 2;
-				//audioSource.volume = 1.0f;
-				soundsources[i].pitch = 2;
+			if (Input.GetKeyDown (music_keys [i]) && prevIndex != i) {
+				StartCoroutine (fadeAudio (prevIndex));
+			}
+			else if (Input.GetKey (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
+				soundsources [i].pitch = 2;
 				soundsources [i].volume = 1.0f;
 				SoundKeyPressed (i, true);
-			} else if (Input.GetKey(music_keys [i])) {
+			} else if (Input.GetKey (music_keys [i])) {
 				//else if (Input.GetKeyDown (music_keys [i])) {
-				//audioSource.pitch = 1;
-				//audioSource.volume = 1.0f;
-				soundsources[i].pitch = 1;
+				soundsources [i].pitch = 1;
 				soundsources [i].volume = 1.0f;
 				SoundKeyPressed (i, false);
-			} else if(Input.GetKeyUp(music_keys[i])){
+			} else if (Input.GetKeyUp (music_keys [i])) {
 				StartCoroutine (fadeAudio (i));
 			}
 		}
