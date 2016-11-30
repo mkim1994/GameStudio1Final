@@ -10,6 +10,7 @@ public class BirdGenerator : MonoBehaviour {
 		public Bird(int[] noteTriplet, GameObject birdPrefab, Vector3 spawnPosition){
 
 			bird = Instantiate(birdPrefab, spawnPosition, Quaternion.identity) as GameObject;
+			bird.GetComponent<ClickBird>().song = noteTriplet;
 
 			//trying to have different colors for birds... not working atm
 			Renderer rend = bird.GetComponentInChildren<Renderer>();
