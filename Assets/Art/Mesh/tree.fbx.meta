@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 2d56205a0c1a8974da488b49f20695f4
-timeCreated: 1478139811
+guid: 423b4b0d31d974b92a27f6ae9fb04123
+timeCreated: 1480476513
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -35,7 +35,19 @@ ModelImporter:
     100054: polySurface3
     100056: polySurface4
     100058: polySurface5
-    100060: //RootNode
+    100060: pPlane1
+    100062: pPlane10
+    100064: pPlane11
+    100066: pPlane12
+    100068: pPlane2
+    100070: pPlane3
+    100072: pPlane4
+    100074: pPlane5
+    100076: pPlane6
+    100078: pPlane7
+    100080: pPlane8
+    100082: pPlane9
+    100084: //RootNode
     400000: curve1
     400002: curve10
     400004: curve11
@@ -66,7 +78,19 @@ ModelImporter:
     400054: polySurface3
     400056: polySurface4
     400058: polySurface5
-    400060: //RootNode
+    400060: pPlane1
+    400062: pPlane10
+    400064: pPlane11
+    400066: pPlane12
+    400068: pPlane2
+    400070: pPlane3
+    400072: pPlane4
+    400074: pPlane5
+    400076: pPlane6
+    400078: pPlane7
+    400080: pPlane8
+    400082: pPlane9
+    400084: //RootNode
     2300000: nurbsToPoly10
     2300002: nurbsToPoly12
     2300004: nurbsToPoly13
@@ -79,6 +103,18 @@ ModelImporter:
     2300018: polySurface3
     2300020: polySurface4
     2300022: polySurface5
+    2300024: pPlane1
+    2300026: pPlane10
+    2300028: pPlane11
+    2300030: pPlane12
+    2300032: pPlane2
+    2300034: pPlane3
+    2300036: pPlane4
+    2300038: pPlane5
+    2300040: pPlane6
+    2300042: pPlane7
+    2300044: pPlane8
+    2300046: pPlane9
     3300000: nurbsToPoly10
     3300002: nurbsToPoly12
     3300004: nurbsToPoly13
@@ -91,6 +127,18 @@ ModelImporter:
     3300018: polySurface3
     3300020: polySurface4
     3300022: polySurface5
+    3300024: pPlane1
+    3300026: pPlane10
+    3300028: pPlane11
+    3300030: pPlane12
+    3300032: pPlane2
+    3300034: pPlane3
+    3300036: pPlane4
+    3300038: pPlane5
+    3300040: pPlane6
+    3300042: pPlane7
+    3300044: pPlane8
+    3300046: pPlane9
     4300000: nurbsToPoly3
     4300002: nurbsToPoly4
     4300004: nurbsToPoly5
@@ -103,6 +151,18 @@ ModelImporter:
     4300018: nurbsToPoly10
     4300020: nurbsToPoly12
     4300022: nurbsToPoly13
+    4300024: pPlane1
+    4300026: pPlane2
+    4300028: pPlane3
+    4300030: pPlane4
+    4300032: pPlane5
+    4300034: pPlane6
+    4300036: pPlane7
+    4300038: pPlane8
+    4300040: pPlane9
+    4300042: pPlane10
+    4300044: pPlane11
+    4300046: pPlane12
     9500000: //RootNode
   materials:
     importMaterials: 1
