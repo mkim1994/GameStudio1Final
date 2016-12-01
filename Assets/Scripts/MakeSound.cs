@@ -81,9 +81,9 @@ public class MakeSound : MonoBehaviour {
 
 		SoundLogic ();
 
-		if (audioSource.isPlaying == false) {
+		/*if (audioSource.isPlaying == false) {
 			characterani.SetBool ("isplaying", false); 
-		}
+		}*/
 
 	}
 
