@@ -10,6 +10,10 @@ public class ClickBird : MonoBehaviour {
 	public int[] song;
 	private AudioSource audioSource;
 	private AudioClip[] sounds;
+	private KeyCode[] birdKeys;
+	public int birdIndex;
+	public bool allowedToPlay;
+	private BirdGenerator birdGenerator;
 
 	public float timeBetweenBirdNotes; 
 	public float timeBetweenFades; //should always be shorter than timeBetweenBirdNotes
@@ -21,10 +25,15 @@ public class ClickBird : MonoBehaviour {
 		makeSound = soundManager.GetComponent<MakeSound> ();
 		audioSource = GetComponent<AudioSource> ();
 		sounds = makeSound.sounds;
+		GameObject birdGenObj = GameObject.FindWithTag ("BirdGenerator");
+		birdGenerator = birdGenObj.GetComponent<BirdGenerator> ();
+		birdKeys = birdGenerator.birdKeys;
+		allowedToPlay = true;
 
 	}
+
 	void Update () {
-		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		/*ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 		if (Input.GetMouseButtonDown (0)) {
 			if(Physics.Raycast(ray, out hit)) //Physics.Raycast(someRay, out someHit)
@@ -33,7 +42,15 @@ public class ClickBird : MonoBehaviour {
 					StartCoroutine (playSong (false));
 				}
 			}	
+		}*/
+
+		if (Input.GetKeyDown (birdKeys [birdIndex])) {
+			if (allowedToPlay) {
+				birdGenerator.SetSongPlayingPrivilege (false);
+				StartCoroutine (playSong (false));
+			}
 		}
+
 	}
 
 	public IEnumerator playSong(bool initialWait){
@@ -74,6 +91,7 @@ public class ClickBird : MonoBehaviour {
 			audioSource.volume = 0f;
 			audioSource.Stop ();
 		}
+		birdGenerator.SetSongPlayingPrivilege (true);
 	}
 
 }

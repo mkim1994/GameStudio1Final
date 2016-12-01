@@ -9,6 +9,7 @@ TagManager:
   - SunriseCanvas
   - Tree
   - MusicManager
+  - BirdGenerator
   layers:
   - Default
   - TransparentFX
