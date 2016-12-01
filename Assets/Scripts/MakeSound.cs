@@ -173,7 +173,8 @@ public class MakeSound : MonoBehaviour {
 			shortsounds[i].Play();
 
 			characterani.SetBool ("isplaying", true);
-			ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
+			//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
+			activeButton(i, true);
 
 			/*audioSource.clip = sounds [i];
 		audioSource.Play ();*/
@@ -186,7 +187,7 @@ public class MakeSound : MonoBehaviour {
 
 			if (!ifFinish) {
 				if (j == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
-					ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
+					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
 					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex);
 					if (currentActiveNoteIndex < 2) {
 						currentActiveNoteIndex += 1;
@@ -211,7 +212,7 @@ public class MakeSound : MonoBehaviour {
 				} else {
 					currentActiveTripletIndex = 0;
 					currentActiveNoteIndex = 0;
-					ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
+					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
 					for (int k = 0; k < birdGenerator.birdList.Count; k++){
 						birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0);
 					}
@@ -233,14 +234,18 @@ public class MakeSound : MonoBehaviour {
 
 		for (int i = 0; i < sounds.Length; i++) {
 			if (!currentlyplaying) {
-				if (Input.GetKeyDown (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
-					shortsounds [i].pitch = 2;
-					SoundKeyPressed (i, true);
-					//StartCoroutine (fadeAudio (i, true));
-					//soundsources[i].pitch = 2;
-					//soundsources [i].Play ();
-					//StartCoroutine (fadeAudio (i, true));
-					currentlyplaying = true;
+				if (Input.GetKey (KeyCode.J)) {
+					activeButton (5,true);
+					if (Input.GetKeyDown (music_keys [i])) {
+					
+						shortsounds [i].pitch = 2;
+						SoundKeyPressed (i, true);
+						//StartCoroutine (fadeAudio (i, true));
+						//soundsources[i].pitch = 2;
+						//soundsources [i].Play ();
+						//StartCoroutine (fadeAudio (i, true));
+						currentlyplaying = true;
+					}
 				} else if (Input.GetKeyDown (music_keys [i])) {
 					shortsounds [i].pitch = 1;
 					SoundKeyPressed (i, false);
@@ -249,8 +254,13 @@ public class MakeSound : MonoBehaviour {
 					//soundsources [i].Play ();
 					//StartCoroutine (fadeAudio (i, true));
 					currentlyplaying = true;
-				} else if (Input.GetKeyUp (music_keys [i])) {
+				}
+
+				if (Input.GetKeyUp (music_keys [i])) {
+					activeButton(i, false);
 					//StartCoroutine(fadeAudio(i,false));
+				} else if(Input.GetKeyUp(KeyCode.J)){
+					activeButton(5,false);
 				}
 			}
 
@@ -273,6 +283,12 @@ public class MakeSound : MonoBehaviour {
 
 		}
 	}
+	
+	void activeButton(int index, bool held){
+		ButtonImage[index].gameObject.SetActive(held);
+		
+	}
+
 
 	IEnumerator fadeAudio(int i, bool fadein){
 		float startVolume;
@@ -296,7 +312,8 @@ public class MakeSound : MonoBehaviour {
 
 			//soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
 
-/*			soundsources[i].volume = Mathf.SmoothDamp(startVolume, endVolume, lerpFactor, duration);
+			/*
+			soundsources[i].volume = Mathf.SmoothDamp(startVolume, endVolume, lerpFactor, duration);
 			lerpFactor = lerpFactor + Time.deltaTime * inverseDuration;
 			yield return 1.0f;*/
 
@@ -317,4 +334,5 @@ public class MakeSound : MonoBehaviour {
 			soundsources [i].volume = 1.0f;
 		}
 	}
+
 }
