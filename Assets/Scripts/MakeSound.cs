@@ -174,6 +174,7 @@ public class MakeSound : MonoBehaviour {
 
 			characterani.SetBool ("isplaying", true);
 			//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
+
 			activeButton(i, true);
 
 			/*audioSource.clip = sounds [i];
