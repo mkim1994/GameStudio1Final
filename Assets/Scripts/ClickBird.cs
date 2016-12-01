@@ -51,7 +51,7 @@ public class ClickBird : MonoBehaviour {
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
 				birdGenerator.SetSongPlayingPrivilege (false);
-				SetPlayingParticles (true);
+				EmitPlayingParticles ();
 				StartCoroutine (playSong (false));
 			}
 		}
@@ -74,13 +74,9 @@ public class ClickBird : MonoBehaviour {
 		}
 	}
 
-	void SetPlayingParticles(bool on){
-		if (on) {
-			playingParticles.Play ();
-		} else {
-			playingParticles.Stop ();
-			playingParticles.Clear ();
-		}
+	void EmitPlayingParticles(){
+		playingParticles.Emit (1);
+		playingParticles.Stop ();
 	}
 
 	public IEnumerator playSong(bool initialWait){
@@ -122,6 +118,5 @@ public class ClickBird : MonoBehaviour {
 			audioSource.Stop ();
 		}
 		birdGenerator.SetSongPlayingPrivilege (true);
-		SetPlayingParticles (false);
 	}
 }

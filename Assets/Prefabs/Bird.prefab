@@ -367,10 +367,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012497658606}
-  m_LocalRotation: {x: -0.0075961384, y: 0.99240386, z: 0.08682413, w: 0.086824216}
-  m_LocalPosition: {x: 3, y: 1.77, z: 1.04}
+  m_LocalRotation: {x: -0.018863976, y: 0.97258097, z: 0.2156159, w: 0.085089944}
+  m_LocalPosition: {x: 3.54, y: 1.58, z: -0.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: -10, y: 170, z: 0}
+  m_LocalEulerAnglesHint: {x: -25, y: 170, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011202631082}
   m_RootOrder: 2
@@ -706,7 +706,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1052207001
+  randomSeed: 1974323390
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2460,12 +2460,12 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -2061422238
+  randomSeed: 1147213639
   InitialModule:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 2
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2500,7 +2500,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 4
+      scalar: 7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2623,10 +2623,10 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 0, b: 0.80784315, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0, b: 0.019607844, a: 1}
       minMaxState: 0
     startSize:
-      scalar: 2
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2905,7 +2905,7 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 3
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
