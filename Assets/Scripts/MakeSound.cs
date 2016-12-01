@@ -168,7 +168,7 @@ public class MakeSound : MonoBehaviour {
 			if (!ifFinish) {
 				if (j == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
 					ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
-					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetParticles (true, currentActiveNoteIndex);
+					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex);
 					if (currentActiveNoteIndex < 2) {
 						currentActiveNoteIndex += 1;
 					} else {
@@ -194,7 +194,7 @@ public class MakeSound : MonoBehaviour {
 					currentActiveNoteIndex = 0;
 					ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
 					for (int k = 0; k < birdGenerator.birdList.Count; k++){
-						birdGenerator.birdList[k].GetComponent<ClickBird>().SetParticles(false, 0);
+						birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0);
 					}
 				} 
 			}

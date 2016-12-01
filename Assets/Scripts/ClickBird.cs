@@ -14,7 +14,8 @@ public class ClickBird : MonoBehaviour {
 	public int birdIndex;
 	public bool allowedToPlay;
 	private BirdGenerator birdGenerator;
-	private ParticleSystem particles;
+	private ParticleSystem happyParticles;
+	private ParticleSystem playingParticles;
 
 	public float timeBetweenBirdNotes; 
 	public float timeBetweenFades; //should always be shorter than timeBetweenBirdNotes
@@ -30,7 +31,8 @@ public class ClickBird : MonoBehaviour {
 		birdGenerator = birdGenObj.GetComponent<BirdGenerator> ();
 		birdKeys = birdGenerator.birdKeys;
 		allowedToPlay = true;
-		particles = GetComponentInChildren<ParticleSystem> ();
+		happyParticles = transform.Find ("BirdHappyParticles").GetComponent<ParticleSystem> ();
+		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
 
 	}
 
@@ -49,24 +51,35 @@ public class ClickBird : MonoBehaviour {
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
 				birdGenerator.SetSongPlayingPrivilege (false);
+				SetPlayingParticles (true);
 				StartCoroutine (playSong (false));
 			}
 		}
 
 	}
 
-	public void SetParticles(bool on, int noteNum){
+	public void SetHappyParticles(bool on, int noteNum){
 		if (on) {
-			particles.Play ();
+			happyParticles.Play ();
 			if (noteNum == 0) {
-				particles.startColor = Color.blue;
+				happyParticles.startColor = Color.blue;
 			} else if (noteNum == 1) {
-				particles.startColor = Color.red;
+				happyParticles.startColor = Color.red;
 			} else if (noteNum == 2) {
-				particles.startColor = Color.green;
+				happyParticles.startColor = Color.green;
 			}
 		} else {
-			particles.Stop ();
+			happyParticles.Stop ();
+			happyParticles.Clear ();
+		}
+	}
+
+	void SetPlayingParticles(bool on){
+		if (on) {
+			playingParticles.Play ();
+		} else {
+			playingParticles.Stop ();
+			playingParticles.Clear ();
 		}
 	}
 
@@ -109,5 +122,6 @@ public class ClickBird : MonoBehaviour {
 			audioSource.Stop ();
 		}
 		birdGenerator.SetSongPlayingPrivilege (true);
+		SetPlayingParticles (false);
 	}
 }
