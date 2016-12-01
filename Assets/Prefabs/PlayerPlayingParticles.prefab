@@ -34,10 +34,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011510973388}
-  m_LocalRotation: {x: 0, y: 0.5735764, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: -5.11, y: 10, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.98, y: 9.71, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 70, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -91,7 +91,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -150094364
+  randomSeed: 759109780
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -131,7 +131,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 3
+      scalar: 7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -253,11 +253,11 @@ ParticleSystem:
         atime7: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-      minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
-      minMaxState: 0
+      minColor: {r: 1, g: 0, b: 0.80784315, a: 1}
+      maxColor: {r: 1, g: 0, b: 0.43529412, a: 1}
+      minMaxState: 2
     startSize:
-      scalar: 2
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -464,9 +464,9 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 11
+    type: 4
     radius: 1
-    angle: 25
+    angle: 5
     length: 5
     boxX: 1
     boxY: 1
@@ -486,7 +486,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 10
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -536,19 +536,19 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 2.5
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
           value: 0
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
         - time: 1
           value: 1
-          inSlope: 2
-          outSlope: 2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2

@@ -1199,3 +1199,4 @@ MonoBehaviour:
   birdGeneratorObj: {fileID: 0}
   maxSongLength: 4
   ifFinish: 0
+  player: {fileID: 0}

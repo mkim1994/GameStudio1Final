@@ -44,6 +44,8 @@ public class MakeSound : MonoBehaviour {
 	public List<int[]> tripletList;
 	private int note;
 	public bool ifFinish;
+	public GameObject player;
+	private ParticleSystem playerParticles;
 
 	private int prevIndex;
 
@@ -55,6 +57,7 @@ public class MakeSound : MonoBehaviour {
 		endBk = GameObject.FindWithTag ("SunriseCanvas").GetComponent<Animator> ();
 		treeLight = GameObject.FindWithTag("Tree").GetComponent<Animator> ();
 		birdGenerator = birdGeneratorObj.GetComponent<BirdGenerator> ();
+		playerParticles = player.GetComponentInChildren<ParticleSystem> ();
 
 		audioSource = GetComponent<AudioSource> ();
 		note = 0;
@@ -80,6 +83,7 @@ public class MakeSound : MonoBehaviour {
 	void Update () {
 
 		SoundLogic ();
+		//CheckSourcesToStopPlayerParticles ();
 
 		/*if (audioSource.isPlaying == false) {
 			characterani.SetBool ("isplaying", false); 
@@ -139,8 +143,23 @@ public class MakeSound : MonoBehaviour {
 		return note;
 	}
 
+	void CheckSourcesToStopPlayerParticles(){
+		bool playing = false;
+		for (int i = 0; i < 5; i++) {
+			if (soundsources [i].isPlaying) {
+				playing = true;
+			}
+		}
+		if (!playing) {
+			playerParticles.Stop ();
+		}
+	}
+
 
 	void SoundKeyPressed(int i, bool octaveShift){
+
+		playerParticles.Emit (1);
+		playerParticles.Stop ();
 
 		prevIndex = i;
 
@@ -253,7 +272,6 @@ public class MakeSound : MonoBehaviour {
 		}*/
 
 		}
-
 	}
 
 	IEnumerator fadeAudio(int i, bool fadein){
