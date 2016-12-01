@@ -579,7 +579,7 @@ MonoBehaviour:
   birdIndex: 0
   allowedToPlay: 0
   timeBetweenBirdNotes: 0.05
-  timeBetweenFades: 0.3
+  timeBetweenFades: 0.2
   birdSongDelayForNewTriplet: 2
 --- !u!114 &114000013766965122
 MonoBehaviour:
@@ -706,7 +706,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1974323390
+  randomSeed: -1945410860
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2417,7 +2417,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012497658606}
   serializedVersion: 4
-  lengthInSec: 5
+  lengthInSec: 1
   startDelay:
     scalar: 0
     maxCurve:
@@ -2454,13 +2454,13 @@ ParticleSystem:
       m_RotationOrder: 4
     minMaxState: 0
   speed: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1147213639
+  randomSeed: -1316297258
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2855,7 +2855,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 2
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
