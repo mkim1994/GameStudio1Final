@@ -72,8 +72,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011948691128}
-  - 198: {fileID: 198000011744962692}
-  - 199: {fileID: 199000013751870614}
+  - 199: {fileID: 199000011686929426}
+  - 198: {fileID: 198000011374555578}
   m_Layer: 0
   m_Name: BirdPlayingParticles
   m_TagString: Untagged
@@ -367,10 +367,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012497658606}
-  m_LocalRotation: {x: 0, y: 0.5735764, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 5, y: 2, z: 3.5}
+  m_LocalRotation: {x: -0.0075961384, y: 0.99240386, z: 0.08682413, w: 0.086824216}
+  m_LocalPosition: {x: 3, y: 1.77, z: 1.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 70, z: 0}
+  m_LocalEulerAnglesHint: {x: -10, y: 170, z: 0}
   m_Children: []
   m_Father: {fileID: 4000011202631082}
   m_RootOrder: 2
@@ -706,7 +706,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -906618401
+  randomSeed: 1052207001
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -2410,7 +2410,7 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
---- !u!198 &198000011744962692
+--- !u!198 &198000011374555578
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2460,12 +2460,12 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -2074402014
+  randomSeed: -2061422238
   InitialModule:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2500,7 +2500,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 3
+      scalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2622,7 +2622,7 @@ ParticleSystem:
         atime7: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
-      minColor: {r: 1, g: 1, b: 1, a: 1}
+      minColor: {r: 1, g: 0, b: 0.80784315, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       minMaxState: 0
     startSize:
@@ -2833,9 +2833,9 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 11
+    type: 4
     radius: 1
-    angle: 25
+    angle: 5
     length: 5
     boxX: 1
     boxY: 1
@@ -2855,7 +2855,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 10
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2905,7 +2905,7 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 2.5
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4188,7 +4188,7 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
---- !u!199 &199000013751870614
+--- !u!199 &199000011686929426
 ParticleSystemRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
