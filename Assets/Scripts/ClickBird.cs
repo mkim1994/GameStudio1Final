@@ -51,7 +51,6 @@ public class ClickBird : MonoBehaviour {
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
 				birdGenerator.SetSongPlayingPrivilege (false);
-				EmitPlayingParticles ();
 				StartCoroutine (playSong (false));
 			}
 		}
@@ -74,11 +73,6 @@ public class ClickBird : MonoBehaviour {
 		}
 	}
 
-	void EmitPlayingParticles(){
-		playingParticles.Emit (1);
-		playingParticles.Stop ();
-	}
-
 	public IEnumerator playSong(bool initialWait){
 		if (initialWait) {
 			yield return new WaitForSeconds(birdSongDelayForNewTriplet);
@@ -93,6 +87,8 @@ public class ClickBird : MonoBehaviour {
 			audioSource.volume = 1.0f;
 			audioSource.clip = sounds [note%5];
 			audioSource.Play ();
+			playingParticles.Emit (1);
+			playingParticles.Stop ();
 
 			float startVolume = audioSource.volume;
 			float duration = 0.25f;
