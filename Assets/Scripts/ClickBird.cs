@@ -61,11 +61,11 @@ public class ClickBird : MonoBehaviour {
 		if (on) {
 			happyParticles.Play ();
 			if (noteNum == 0) {
-				happyParticles.startColor = Color.blue;
+				happyParticles.startSize = 0.25f;
 			} else if (noteNum == 1) {
-				happyParticles.startColor = Color.red;
+				happyParticles.startSize = 0.5f;
 			} else if (noteNum == 2) {
-				happyParticles.startColor = Color.green;
+				happyParticles.startSize = 1f;
 			}
 		} else {
 			happyParticles.Stop ();
