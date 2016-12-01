@@ -14,6 +14,7 @@ public class ClickBird : MonoBehaviour {
 	public int birdIndex;
 	public bool allowedToPlay;
 	private BirdGenerator birdGenerator;
+	private ParticleSystem particles;
 
 	public float timeBetweenBirdNotes; 
 	public float timeBetweenFades; //should always be shorter than timeBetweenBirdNotes
@@ -29,6 +30,7 @@ public class ClickBird : MonoBehaviour {
 		birdGenerator = birdGenObj.GetComponent<BirdGenerator> ();
 		birdKeys = birdGenerator.birdKeys;
 		allowedToPlay = true;
+		particles = GetComponentInChildren<ParticleSystem> ();
 
 	}
 
@@ -51,6 +53,21 @@ public class ClickBird : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void SetParticles(bool on, int noteNum){
+		if (on) {
+			particles.Play ();
+			if (noteNum == 0) {
+				particles.startColor = Color.blue;
+			} else if (noteNum == 1) {
+				particles.startColor = Color.red;
+			} else if (noteNum == 2) {
+				particles.startColor = Color.green;
+			}
+		} else {
+			particles.Stop ();
+		}
 	}
 
 	public IEnumerator playSong(bool initialWait){
@@ -93,5 +110,4 @@ public class ClickBird : MonoBehaviour {
 		}
 		birdGenerator.SetSongPlayingPrivilege (true);
 	}
-
 }
