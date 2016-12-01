@@ -10,6 +10,7 @@ public class MakeSound : MonoBehaviour {
 	public AudioClip[] sounds;
 
 	public AudioSource[] soundsources;
+	public AudioSource[] shortsounds;
 
 	public KeyCode[] music_keys;
 	public Image[] ButtonImage;
@@ -31,6 +32,8 @@ public class MakeSound : MonoBehaviour {
 	private int currentMaxTripletIndex;
 	public int maxSongLength;
 
+	private KeyCode[] inputKeys;
+
 
 	private Animator endBk;
 	private Animator treeLight;
@@ -43,6 +46,7 @@ public class MakeSound : MonoBehaviour {
 	public bool ifFinish;
 
 	private int prevIndex;
+
 
 	// Use this for initialization
 	void Start () {
@@ -70,7 +74,6 @@ public class MakeSound : MonoBehaviour {
 		prevIndex = 0;
 
 
-
 	}
 
 	// Update is called once per frame
@@ -83,6 +86,7 @@ public class MakeSound : MonoBehaviour {
 		}
 
 	}
+
 
 	void ParseTransitionMatrix(){
 		string fileFullString;
@@ -135,13 +139,19 @@ public class MakeSound : MonoBehaviour {
 		return note;
 	}
 
+
 	void SoundKeyPressed(int i, bool octaveShift){
 
 		prevIndex = i;
 
-		if (!soundsources [i].isPlaying) {
+		if (!shortsounds [i].isPlaying) {
 
-			soundsources [i].Play ();
+			/*soundsources [i].volume = 0.0f;
+			soundsources [i].Play ();*/
+			//StartCoroutine (fadeAudio (i, true));
+			//shortsounds[i].PlayOneShot(shortsounds[i].clip);
+			shortsounds [i].volume = 1.0f;
+			shortsounds[i].Play();
 
 			characterani.SetBool ("isplaying", true);
 			ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
@@ -193,46 +203,96 @@ public class MakeSound : MonoBehaviour {
 	void SoundLogic()
 	{
 
+		bool currentlyplaying = false;
+		//check if there are any sounds currently playing
+
+
+
 		for (int i = 0; i < sounds.Length; i++) {
-			if (Input.GetKeyDown (music_keys [i]) && prevIndex != i) {
-				StartCoroutine (fadeAudio (prevIndex));
+			if (!currentlyplaying) {
+				if (Input.GetKeyDown (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
+					shortsounds [i].pitch = 2;
+					SoundKeyPressed (i, true);
+					//StartCoroutine (fadeAudio (i, true));
+					//soundsources[i].pitch = 2;
+					//soundsources [i].Play ();
+					//StartCoroutine (fadeAudio (i, true));
+					currentlyplaying = true;
+				} else if (Input.GetKeyDown (music_keys [i])) {
+					shortsounds [i].pitch = 1;
+					SoundKeyPressed (i, false);
+					//StartCoroutine (fadeAudio (i, true));
+					//	soundsources[i].pitch = 1;
+					//soundsources [i].Play ();
+					//StartCoroutine (fadeAudio (i, true));
+					currentlyplaying = true;
+				} else if (Input.GetKeyUp (music_keys [i])) {
+					//StartCoroutine(fadeAudio(i,false));
+				}
 			}
-			else if (Input.GetKey (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
-				soundsources [i].pitch = 2;
-				soundsources [i].volume = 1.0f;
-				SoundKeyPressed (i, true);
-			} else if (Input.GetKey (music_keys [i])) {
-				//else if (Input.GetKeyDown (music_keys [i])) {
-				soundsources [i].pitch = 1;
-				soundsources [i].volume = 1.0f;
-				SoundKeyPressed (i, false);
-			} else if (Input.GetKeyUp (music_keys [i])) {
-				StartCoroutine (fadeAudio (i));
-			}
+
+			/*if (Input.GetKeyDown (music_keys [i]) && prevIndex != i) {
+			StartCoroutine (fadeAudio (prevIndex));
+		}*/
+
+			/*if (Input.GetKey (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
+			soundsources [i].pitch = 2;
+			soundsources [i].volume = 1.0f;
+			SoundKeyPressed (i, true);
+		} else if (Input.GetKey (music_keys [i])) {
+			//else if (Input.GetKeyDown (music_keys [i])) {
+			soundsources [i].pitch = 1;
+			soundsources [i].volume = 1.0f;
+			SoundKeyPressed (i, false);
+		} else if (Input.GetKeyUp (music_keys [i])) {
+			StartCoroutine (fadeAudio (i, false));
+		}*/
+
 		}
+
 	}
 
-	/*IEnumerator fadeAudio(int i){
-		for (int t = 9; t > 0; t--) {
-			soundsources[i].volume = t * 0.1f;
-			yield return new WaitForSeconds (0.01f);
+	IEnumerator fadeAudio(int i, bool fadein){
+		float startVolume;
+		float endVolume;
+		float duration;
+		float startTime = Time.time;
+		if (fadein) {
+			startVolume = 0.0f;
+			endVolume = 1.0f;
+			duration = 0.5f;
+		} else { //fadeout
+			//startVolume = soundsources [i].volume;
+			startVolume = 1.0f;
+			endVolume = 0.0f;
+			duration = 0.5f;
 		}
-		soundsources [i].volume -= 0.1f * Time.deltaTime;
-		yield return new WaitForSeconds (1.0f);
-		soundsources[i].Stop();
-	}*/
-
-	IEnumerator fadeAudio(int i){
-		float startVolume = soundsources [i].volume;
-		float duration = 0.1f;
 		float inverseDuration = 1.0f / duration;
 		float lerpFactor = 0.0f;
-		while (lerpFactor <= 1.0f) {
-			soundsources [i].volume = Mathf.Lerp (startVolume, 0.0f, lerpFactor);
+		while (lerpFactor <= 1.0f && ((fadein && soundsources[i].volume < 1.0f) ||
+			!fadein && soundsources[i].volume > 0.0f)) {
+
+			//soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
+
+/*			soundsources[i].volume = Mathf.SmoothDamp(startVolume, endVolume, lerpFactor, duration);
 			lerpFactor = lerpFactor + Time.deltaTime * inverseDuration;
-			yield return 1.0f;
+			yield return 1.0f;*/
+
+			lerpFactor += Time.deltaTime / duration;
+			soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
+			yield return null;
 		}
-		soundsources [i].volume = 0.0f;
-		soundsources [i].Stop ();
+
+
+
+		if (!fadein) {
+			soundsources [i].volume = 0.0f;
+
+			soundsources [i].Stop ();
+
+
+		} else {
+			soundsources [i].volume = 1.0f;
+		}
 	}
 }
