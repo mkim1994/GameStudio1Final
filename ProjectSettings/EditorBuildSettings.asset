@@ -9,3 +9,7 @@ EditorBuildSettings:
     path: Assets/Ocurina_game.unity
   - enabled: 1
     path: Assets/Scenes/BenScene.unity
+  - enabled: 1
+    path: Assets/Scenes/IntroScene.unity
+  - enabled: 1
+    path: Assets/Scenes/MelScene.unity
