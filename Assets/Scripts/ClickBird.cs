@@ -50,6 +50,7 @@ public class ClickBird : MonoBehaviour {
 
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
+				makeSound.ResetPlaceInSong ();
 				birdGenerator.SetSongPlayingPrivilege (false);
 				StartCoroutine (playSong (false));
 			}
@@ -60,16 +61,31 @@ public class ClickBird : MonoBehaviour {
 	public void SetHappyParticles(bool on, int noteNum){
 		if (on) {
 			happyParticles.Play ();
+			happyParticles.gravityModifier = 0;
+			var emissionMod = happyParticles.emission;
+			var rate = emissionMod.rate;
+			rate.mode = ParticleSystemCurveMode.Constant;
+
 			if (noteNum == 0) {
-				happyParticles.startSize = 0.25f;
+				rate.constantMin = 3;
+				rate.constantMax = 3;
+				happyParticles.startSize = 0.14f;
+				happyParticles.startLifetime = 1f;
 			} else if (noteNum == 1) {
-				happyParticles.startSize = 0.5f;
+				rate.constantMin = 8;
+				rate.constantMax = 8;
+				happyParticles.startSize = 0.14f;
+				happyParticles.startLifetime = 1f;
 			} else if (noteNum == 2) {
-				happyParticles.startSize = 1f;
+				rate.constantMin = 15;
+				rate.constantMax = 15;
+				happyParticles.startSize = 0.18f;
+				happyParticles.startLifetime = 1.2f;
 			}
+			emissionMod.rate = rate;
 		} else {
-			happyParticles.Stop ();
-			happyParticles.Clear ();
+			happyParticles.Stop ();	
+			happyParticles.gravityModifier = 1.2f;
 		}
 	}
 

@@ -27,8 +27,8 @@ public class MakeSound : MonoBehaviour {
 	private int[,] transitionMatrix;
 	private int matrixSize;
 	private int currentLastNote;
-	private int currentActiveTripletIndex;
-	private int currentActiveNoteIndex;
+	public int currentActiveTripletIndex;
+	public int currentActiveNoteIndex;
 	private int currentMaxTripletIndex;
 	public int maxSongLength;
 
@@ -155,6 +155,15 @@ public class MakeSound : MonoBehaviour {
 		}
 	}
 
+	public void ResetPlaceInSong(){
+		currentActiveTripletIndex = 0;
+		currentActiveNoteIndex = 0;
+		//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
+		for (int k = 0; k < birdGenerator.birdList.Count; k++){
+			birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0);
+		}
+	}
+
 
 	void SoundKeyPressed(int i, bool octaveShift){
 
@@ -211,12 +220,7 @@ public class MakeSound : MonoBehaviour {
 						}
 					}
 				} else {
-					currentActiveTripletIndex = 0;
-					currentActiveNoteIndex = 0;
-					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
-					for (int k = 0; k < birdGenerator.birdList.Count; k++){
-						birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0);
-					}
+					ResetPlaceInSong ();
 				} 
 			}
 		}
