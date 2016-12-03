@@ -15,7 +15,10 @@ public class ClickBird : MonoBehaviour {
 	public bool allowedToPlay;
 	private BirdGenerator birdGenerator;
 	private ParticleSystem happyParticles;
-	private ParticleSystem playingParticles;
+	public ParticleSystem playingParticles;
+	public Color particleColor;
+	public Material birdMaterial;
+	private Renderer birdRenderer;
 
 	public float timeBetweenBirdNotes; 
 	public float timeBetweenFades; //should always be shorter than timeBetweenBirdNotes
@@ -33,6 +36,11 @@ public class ClickBird : MonoBehaviour {
 		allowedToPlay = true;
 		happyParticles = transform.Find ("BirdHappyParticles").GetComponent<ParticleSystem> ();
 		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
+		birdRenderer = transform.Find ("pCube8").GetComponent<Renderer> ();
+
+
+		playingParticles.startColor = particleColor;
+		birdRenderer.material = birdMaterial;
 
 	}
 
@@ -59,33 +67,19 @@ public class ClickBird : MonoBehaviour {
 	}
 
 	public void SetHappyParticles(bool on, int noteNum){
+		happyParticles.Clear ();
 		if (on) {
-			happyParticles.Play ();
-			happyParticles.gravityModifier = 0;
-			var emissionMod = happyParticles.emission;
-			var rate = emissionMod.rate;
-			rate.mode = ParticleSystemCurveMode.Constant;
-
 			if (noteNum == 0) {
-				rate.constantMin = 3;
-				rate.constantMax = 3;
 				happyParticles.startSize = 0.14f;
-				happyParticles.startLifetime = 1f;
 			} else if (noteNum == 1) {
-				rate.constantMin = 8;
-				rate.constantMax = 8;
-				happyParticles.startSize = 0.14f;
-				happyParticles.startLifetime = 1f;
-			} else if (noteNum == 2) {
-				rate.constantMin = 15;
-				rate.constantMax = 15;
 				happyParticles.startSize = 0.18f;
-				happyParticles.startLifetime = 1.2f;
+			} else if (noteNum == 2) {
+				happyParticles.startSize = 0.22f;
 			}
-			emissionMod.rate = rate;
+			happyParticles.Emit (1);
+			happyParticles.Stop ();
 		} else {
-			happyParticles.Stop ();	
-			happyParticles.gravityModifier = 1.2f;
+		
 		}
 	}
 

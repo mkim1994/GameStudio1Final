@@ -280,10 +280,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011881157052}
-  m_LocalRotation: {x: -0.34618863, y: 0.5198367, z: 0.24240384, w: 0.742404}
-  m_LocalPosition: {x: -7.32, y: 2.88, z: -6.69}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.91, y: 6.21, z: -4.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: -50, y: 70, z: -0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0}
   m_Children: []
   m_Father: {fileID: 4000011202631082}
   m_RootOrder: 3
@@ -578,6 +578,9 @@ MonoBehaviour:
   song: 
   birdIndex: 0
   allowedToPlay: 0
+  playingParticles: {fileID: 0}
+  particleColor: {r: 0, g: 0, b: 0, a: 0}
+  birdMaterial: {fileID: 0}
   timeBetweenBirdNotes: 0.05
   timeBetweenFades: 0.2
   birdSongDelayForNewTriplet: 2
@@ -663,7 +666,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011881157052}
   serializedVersion: 4
-  lengthInSec: 5
+  lengthInSec: 1.1
   startDelay:
     scalar: 0
     maxCurve:
@@ -706,7 +709,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1414577413
+  randomSeed: 570646368
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -746,7 +749,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 5
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -869,8 +872,8 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 0.99215686, g: 0.015686275, b: 0.03529412, a: 1}
-      maxColor: {r: 1, g: 0, b: 0.7254902, a: 1}
-      minMaxState: 2
+      maxColor: {r: 1, g: 0.015686275, b: 0.8901961, a: 1}
+      minMaxState: 0
     startSize:
       scalar: 0.14
       maxCurve:
@@ -1047,7 +1050,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotation:
-      scalar: 0.5235988
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1070,7 +1073,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-      minMaxState: 3
+      minMaxState: 0
     randomizeRotationDirection: 0
     gravityModifier: -0
     maxNumParticles: 1000
@@ -1079,9 +1082,9 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 4
-    radius: 1
-    angle: 50
+    type: 10
+    radius: 0.1
+    angle: 0
     length: 5
     boxX: 1
     boxY: 1
@@ -1101,7 +1104,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 3
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1151,17 +1154,22 @@ ParticleSystem:
   SizeModule:
     enabled: 1
     curve:
-      scalar: 20
+      scalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0
+          value: 0.3121019
           inSlope: 2
           outSlope: 2
           tangentMode: 0
-        - time: 1
+        - time: 0.5381166
           value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0.59872615
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -1369,10 +1377,10 @@ ParticleSystem:
           rgba: 2583691263
         key1:
           serializedVersion: 2
-          rgba: 2583691263
+          rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -1397,15 +1405,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 55512
-        atime2: 65150
-        atime3: 0
+        atime1: 1157
+        atime2: 57054
+        atime3: 65150
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2
@@ -2445,7 +2453,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -1127522327
+  randomSeed: -236847306
   InitialModule:
     serializedVersion: 2
     enabled: 1
