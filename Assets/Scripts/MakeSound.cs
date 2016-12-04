@@ -220,6 +220,7 @@ public class MakeSound : MonoBehaviour {
 						}
 					}
 				} else {
+					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().EmitConfusedParticle ();
 					ResetPlaceInSong ();
 				} 
 			}

@@ -15,6 +15,7 @@ public class ClickBird : MonoBehaviour {
 	public bool allowedToPlay;
 	private BirdGenerator birdGenerator;
 	private ParticleSystem happyParticles;
+	private ParticleSystem confusedParticles;
 	public ParticleSystem playingParticles;
 	public Color particleColor;
 	public Material birdMaterial;
@@ -36,10 +37,12 @@ public class ClickBird : MonoBehaviour {
 		allowedToPlay = true;
 		happyParticles = transform.Find ("BirdHappyParticles").GetComponent<ParticleSystem> ();
 		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
+		confusedParticles = transform.Find ("BirdConfusedParticles").GetComponent<ParticleSystem> ();
 		birdRenderer = transform.Find ("pCube8").GetComponent<Renderer> ();
 
 
 		playingParticles.startColor = particleColor;
+		confusedParticles.startColor = particleColor;
 		birdRenderer.material = birdMaterial;
 
 	}
@@ -69,18 +72,30 @@ public class ClickBird : MonoBehaviour {
 	public void SetHappyParticles(bool on, int noteNum){
 		happyParticles.Clear ();
 		if (on) {
+			confusedParticles.Clear ();
 			if (noteNum == 0) {
 				happyParticles.startSize = 0.14f;
+				happyParticles.Emit (1);
+				happyParticles.Stop ();
 			} else if (noteNum == 1) {
 				happyParticles.startSize = 0.18f;
+				happyParticles.Emit (1);
+				happyParticles.Stop ();
 			} else if (noteNum == 2) {
 				happyParticles.startSize = 0.22f;
+				happyParticles.Emit (1);
 			}
-			happyParticles.Emit (1);
-			happyParticles.Stop ();
+
+
 		} else {
 		
 		}
+	}
+
+	public void EmitConfusedParticle(){
+		confusedParticles.Clear ();
+		confusedParticles.Emit (1);
+		confusedParticles.Stop ();
 	}
 
 	public IEnumerator playSong(bool initialWait){
