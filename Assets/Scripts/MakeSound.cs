@@ -184,7 +184,11 @@ public class MakeSound : MonoBehaviour {
 			characterani.SetBool ("isplaying", true);
 			//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
 
-			activeButton(i, true);
+			if (i > 4) {
+				activeButton (i - 5, true);
+			} else {
+				activeButton (i, true);
+			}
 
 			/*audioSource.clip = sounds [i];
 		audioSource.Play ();*/
@@ -244,8 +248,8 @@ public class MakeSound : MonoBehaviour {
 					activeButton (5,true);
 					if (Input.GetKeyDown (music_keys [i])) {
 					
-						shortsounds [i].pitch = 2;
-						SoundKeyPressed (i, true);
+						//shortsounds [i].pitch = 2;
+						SoundKeyPressed (i+5, true);
 						//StartCoroutine (fadeAudio (i, true));
 						//soundsources[i].pitch = 2;
 						//soundsources [i].Play ();
@@ -253,7 +257,7 @@ public class MakeSound : MonoBehaviour {
 						currentlyplaying = true;
 					}
 				} else if (Input.GetKeyDown (music_keys [i])) {
-					shortsounds [i].pitch = 1;
+					//shortsounds [i].pitch = 1;
 					SoundKeyPressed (i, false);
 					//StartCoroutine (fadeAudio (i, true));
 					//	soundsources[i].pitch = 1;
