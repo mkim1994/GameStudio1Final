@@ -143,12 +143,16 @@ public class MakeSound : MonoBehaviour {
 		return note;
 	}
 
-	public void ResetPlaceInSong(){
+	public void ResetPlaceInSong(bool onNewBird){
 		currentActiveTripletIndex = 0;
 		currentActiveNoteIndex = 0;
 		//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
-		for (int k = 0; k < birdGenerator.birdList.Count; k++){
-			birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0);
+		int count = birdGenerator.birdList.Count;
+		if (onNewBird) {
+			count -= 1;
+		}
+		for (int k = 0; k < count; k++){
+			birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0, onNewBird);
 		}
 	}
 
@@ -184,7 +188,7 @@ public class MakeSound : MonoBehaviour {
 			if (!ifFinish) {
 				if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
 					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
-					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex);
+					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex, false);
 					if (currentActiveNoteIndex < 2) {
 						currentActiveNoteIndex += 1;
 					} else {
@@ -194,10 +198,7 @@ public class MakeSound : MonoBehaviour {
 							if (currentActiveTripletIndex < maxSongLength) {
 								GenerateTriplet (currentLastNote);
 								currentMaxTripletIndex += 1;
-								//ResetPlaceInSong ();
-								currentActiveTripletIndex = 0;
-								currentActiveNoteIndex = 0;
-
+								ResetPlaceInSong (true);
 							} else {
 								ifFinish = true;
 								characterani.SetBool ("iscorrect", true);
@@ -208,7 +209,7 @@ public class MakeSound : MonoBehaviour {
 					}
 				} else {
 					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().EmitConfusedParticle ();
-					ResetPlaceInSong ();
+					ResetPlaceInSong (false);
 				} 
 			}
 		}

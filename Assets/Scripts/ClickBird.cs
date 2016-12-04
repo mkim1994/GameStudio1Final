@@ -62,7 +62,7 @@ public class ClickBird : MonoBehaviour {
 
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
-				makeSound.ResetPlaceInSong ();
+				makeSound.ResetPlaceInSong (false);
 				birdGenerator.SetSongPlayingPrivilege (false);
 				StartCoroutine (playSong (false));
 			}
@@ -70,16 +70,11 @@ public class ClickBird : MonoBehaviour {
 
 	}
 
-	public void SetHappyParticles(bool on, int noteNum){
-		happyParticles.Clear ();
+	public void SetHappyParticles(bool on, int noteNum, bool newBird){
 		if (on) {
 			happyParticles.gravityModifier = 0;
 			confusedParticles.Clear ();
-			/*ParticleSystem.MinMaxCurve curve = happyParticles.sizeOverLifetime.x;
-			curve.constantMin = 10f;
-			happyParticles.sizeOverLifetime.x = curve;
-			happyParticles.sizeOverLifetime.y = curve;
-			happyParticles.sizeOverLifetime.z = curve;*/
+			happyParticles.Clear ();
 			if (noteNum == 0) {
 				happyParticles.startSize = 0.14f;
 				happyParticles.Emit (1);
@@ -92,15 +87,15 @@ public class ClickBird : MonoBehaviour {
 				happyParticles.startSize = 0.22f;
 				happyParticles.Emit (1);
 				happyParticles.Stop ();
-				/*curve.constantMin = 20f;
-				happyParticles.sizeOverLifetime.x = curve;
-				happyParticles.sizeOverLifetime.y = curve;
-				happyParticles.sizeOverLifetime.z = curve;*/
 				happyParticles.Play ();
 			}
 		} else {
+			if (newBird) {
+				happyParticles.Emit (1);
+			} else {
+				happyParticles.gravityModifier = 1;
+			}
 			happyParticles.Stop ();
-			happyParticles.gravityModifier = 1;
 		}
 	}
 
