@@ -15,7 +15,8 @@ public class ClickBird : MonoBehaviour {
 	public bool allowedToPlay;
 	private BirdGenerator birdGenerator;
 	private ParticleSystem happyParticles;
-	private ParticleSystem confusedParticles;
+	private ParticleSystem confusedParticles;	
+	private ParticleSystem contentedParticles;
 	public ParticleSystem playingParticles;
 	public Color particleColor;
 	public Material birdMaterial;
@@ -36,8 +37,9 @@ public class ClickBird : MonoBehaviour {
 		birdKeys = birdGenerator.birdKeys;
 		allowedToPlay = true;
 		happyParticles = transform.Find ("BirdHappyParticles").GetComponent<ParticleSystem> ();
-		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
 		confusedParticles = transform.Find ("BirdConfusedParticles").GetComponent<ParticleSystem> ();
+		contentedParticles = transform.Find ("BirdContentedParticles").GetComponent<ParticleSystem> ();
+		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
 		birdRenderer = transform.Find ("pCube8").GetComponent<Renderer> ();
 
 
@@ -72,7 +74,13 @@ public class ClickBird : MonoBehaviour {
 	public void SetHappyParticles(bool on, int noteNum){
 		happyParticles.Clear ();
 		if (on) {
+			happyParticles.gravityModifier = 0;
 			confusedParticles.Clear ();
+			/*ParticleSystem.MinMaxCurve curve = happyParticles.sizeOverLifetime.x;
+			curve.constantMin = 10f;
+			happyParticles.sizeOverLifetime.x = curve;
+			happyParticles.sizeOverLifetime.y = curve;
+			happyParticles.sizeOverLifetime.z = curve;*/
 			if (noteNum == 0) {
 				happyParticles.startSize = 0.14f;
 				happyParticles.Emit (1);
@@ -84,11 +92,18 @@ public class ClickBird : MonoBehaviour {
 			} else if (noteNum == 2) {
 				happyParticles.startSize = 0.22f;
 				happyParticles.Emit (1);
+				happyParticles.Stop ();
+				/*curve.constantMin = 20f;
+				happyParticles.sizeOverLifetime.x = curve;
+				happyParticles.sizeOverLifetime.y = curve;
+				happyParticles.sizeOverLifetime.z = curve;*/
+				happyParticles.Play ();
 			}
 
 
 		} else {
-		
+			happyParticles.Stop ();
+			happyParticles.gravityModifier = 1;
 		}
 	}
 
