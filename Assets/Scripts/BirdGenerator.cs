@@ -25,10 +25,15 @@ public class BirdGenerator : MonoBehaviour {
 
 	void InitializeColorArray(){
 		birdColors = new Color[4];
-		birdColors [0] = Color.red;
-		birdColors [1] = Color.green;
-		birdColors [2] = Color.blue;
-		birdColors [3] = Color.yellow;
+		birdColors [0] = new Color(0.42f,0.15f,0.75f); //purple #6a26be
+		birdColors [1] = new Color(0.6f,0.64f,0.2f); //green #9ca40b
+		birdColors [2] = new Color(0.71f,0.34f,0.05f); //orange #b5570e
+		birdColors [3] = new Color(0.71f,0.15f,0.11f); //red #b3160d
+		/*birdColors [0] = Color.white;
+		birdColors [1] = Color.white;
+		birdColors [2] = Color.white;
+		birdColors [3] = Color.white;*/
+
 	}
 
 	public void AddNewBird(int[] triplet){
@@ -45,7 +50,7 @@ public class BirdGenerator : MonoBehaviour {
 		int index = birdList.Count - 1;
 		clickBird.birdIndex = index;
 		clickBird.birdMaterial = birdMaterials [index];
-		clickBird.particleColor = birdColors [index];
+		//clickBird.particleColor = birdColors [index];
 
 		Vector3[] path = new Vector3[2]{ spotAboveTree, targetLocation };
 		iTween.MoveTo(newBird, iTween.Hash("path", path, "time", 2, "easetype", "easeOutCubic"));
