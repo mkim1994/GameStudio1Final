@@ -15,7 +15,6 @@ public class CutsceneHandler : MonoBehaviour {
 	}
 		
 	public void GoToNextScene(){
-
 		SceneManager.LoadScene (scenename);
 	}
 }
