@@ -143,18 +143,6 @@ public class MakeSound : MonoBehaviour {
 		return note;
 	}
 
-	void CheckSourcesToStopPlayerParticles(){
-		bool playing = false;
-		for (int i = 0; i < 5; i++) {
-			if (soundsources [i].isPlaying) {
-				playing = true;
-			}
-		}
-		if (!playing) {
-			playerParticles.Stop ();
-		}
-	}
-
 	public void ResetPlaceInSong(){
 		currentActiveTripletIndex = 0;
 		currentActiveNoteIndex = 0;
@@ -206,8 +194,9 @@ public class MakeSound : MonoBehaviour {
 							if (currentActiveTripletIndex < maxSongLength) {
 								GenerateTriplet (currentLastNote);
 								currentMaxTripletIndex += 1;
-								currentActiveNoteIndex = 0;
+								//ResetPlaceInSong ();
 								currentActiveTripletIndex = 0;
+								currentActiveNoteIndex = 0;
 
 							} else {
 								ifFinish = true;

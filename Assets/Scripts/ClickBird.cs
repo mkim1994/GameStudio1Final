@@ -38,7 +38,6 @@ public class ClickBird : MonoBehaviour {
 		allowedToPlay = true;
 		happyParticles = transform.Find ("BirdHappyParticles").GetComponent<ParticleSystem> ();
 		confusedParticles = transform.Find ("BirdConfusedParticles").GetComponent<ParticleSystem> ();
-		contentedParticles = transform.Find ("BirdContentedParticles").GetComponent<ParticleSystem> ();
 		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
 		birdRenderer = transform.Find ("pCube8").GetComponent<Renderer> ();
 
@@ -99,8 +98,6 @@ public class ClickBird : MonoBehaviour {
 				happyParticles.sizeOverLifetime.z = curve;*/
 				happyParticles.Play ();
 			}
-
-
 		} else {
 			happyParticles.Stop ();
 			happyParticles.gravityModifier = 1;
