@@ -165,7 +165,7 @@ public class MakeSound : MonoBehaviour {
 	}
 
 
-	void SoundKeyPressed(int i, bool octaveShift){
+	void SoundKeyPressed(int i){
 
 		playerParticles.Emit (1);
 		playerParticles.Stop ();
@@ -193,14 +193,8 @@ public class MakeSound : MonoBehaviour {
 			/*audioSource.clip = sounds [i];
 		audioSource.Play ();*/
 
-			int j = i;
-
-			if (octaveShift) {
-				j += 5;
-			}
-
 			if (!ifFinish) {
-				if (j == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
+				if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
 					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
 					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex);
 					if (currentActiveNoteIndex < 2) {
@@ -249,7 +243,7 @@ public class MakeSound : MonoBehaviour {
 					if (Input.GetKeyDown (music_keys [i])) {
 					
 						//shortsounds [i].pitch = 2;
-						SoundKeyPressed (i+5, true);
+						SoundKeyPressed (i+5);
 						//StartCoroutine (fadeAudio (i, true));
 						//soundsources[i].pitch = 2;
 						//soundsources [i].Play ();
@@ -258,7 +252,7 @@ public class MakeSound : MonoBehaviour {
 					}
 				} else if (Input.GetKeyDown (music_keys [i])) {
 					//shortsounds [i].pitch = 1;
-					SoundKeyPressed (i, false);
+					SoundKeyPressed (i);
 					//StartCoroutine (fadeAudio (i, true));
 					//	soundsources[i].pitch = 1;
 					//soundsources [i].Play ();
