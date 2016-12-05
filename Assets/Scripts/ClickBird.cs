@@ -9,7 +9,11 @@ public class ClickBird : MonoBehaviour {
 	private MakeSound makeSound;
 	public int[] song;
 	private AudioSource audioSource;
+
+	//private AudioClip[] sounds;
+
 	private AudioClip[] sounds;
+
 	private KeyCode[] birdKeys;
 	public int birdIndex;
 	public bool allowedToPlay;
@@ -34,7 +38,14 @@ public class ClickBird : MonoBehaviour {
 		soundManager = GameObject.FindWithTag ("MusicManager");
 		makeSound = soundManager.GetComponent<MakeSound> ();
 		audioSource = GetComponent<AudioSource> ();
-		sounds = makeSound.sounds;
+		//sounds = makeSound.sounds;
+
+		AudioSource[] tempsounds = makeSound.soundsources;
+		sounds = new AudioClip[tempsounds.Length];
+		for (int a = 0; a < tempsounds.Length; a++) {
+			sounds [a] = tempsounds [a].clip;
+		}
+
 		GameObject birdGenObj = GameObject.FindWithTag ("BirdGenerator");
 		birdGenerator = birdGenObj.GetComponent<BirdGenerator> ();
 		birdKeys = birdGenerator.birdKeys;
@@ -110,13 +121,8 @@ public class ClickBird : MonoBehaviour {
 		}
 		for (int i = 0; i < 3; i++) {
 			int note = song [i];
-			if (note >= 5) {
-				audioSource.pitch = 2;
-			} else {
-				audioSource.pitch = 1;
-			}
 			audioSource.volume = 1.0f;
-			audioSource.clip = sounds [note%5];
+			audioSource.clip = sounds[note];
 			audioSource.Play ();
 			playingParticles.Emit (1);
 			playingParticles.Stop ();
