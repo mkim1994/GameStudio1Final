@@ -13,3 +13,7 @@ EditorBuildSettings:
     path: Assets/Scenes/IntroScene.unity
   - enabled: 1
     path: Assets/Scenes/MelScene.unity
+  - enabled: 1
+    path: Assets/Scenes/EndMenu.unity
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
