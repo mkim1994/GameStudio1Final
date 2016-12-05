@@ -53,18 +53,7 @@ public class ClickBird : MonoBehaviour {
 	}
 
 	void Update () {
-		/*ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-
-		if (Input.GetMouseButtonDown (0)) {
-			if(Physics.Raycast(ray, out hit)) //Physics.Raycast(someRay, out someHit)
-			{
-				if (hit.collider.gameObject == gameObject) {
-					StartCoroutine (playSong (false));
-				}
-			}	
-		}*/
-
-		if (Input.GetKeyDown (birdKeys [birdIndex])) {
+			if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
 				makeSound.ResetPlaceInSong (false);
 				birdGenerator.SetSongPlayingPrivilege (false);
@@ -77,29 +66,30 @@ public class ClickBird : MonoBehaviour {
 
 	public void SetHappyParticles(bool on, int noteNum, bool newBird){
 		if (on) {
-			happyParticles.gravityModifier = 0;
 			confusedParticles.Clear ();
 			happyParticles.Clear ();
 			if (noteNum == 0) {
+				happyParticles.gravityModifier = 0.3f;	
 				happyParticles.startSize = 0.14f;
 				happyParticles.Emit (1);
 				happyParticles.Stop ();
 			} else if (noteNum == 1) {
+				happyParticles.gravityModifier = 0.3f;
 				happyParticles.startSize = 0.18f;
 				happyParticles.Emit (1);
 				happyParticles.Stop ();
 			} else if (noteNum == 2) {
+				happyParticles.gravityModifier = 0;
 				happyParticles.startSize = 0.22f;
 				happyParticles.Emit (1);
 				happyParticles.Stop ();
 				happyParticles.Play ();
 			}
 		} else {
+			happyParticles.gravityModifier = 0.3f;
 			if (newBird) {
 				happyParticles.Emit (1);
-			} else {
-				happyParticles.gravityModifier = 1;
-			}
+			} 
 			happyParticles.Stop ();
 		}
 	}

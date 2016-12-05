@@ -44,6 +44,7 @@ public class MakeSound : MonoBehaviour {
 	public List<int[]> tripletList;
 	private int note;
 	public bool ifFinish;
+	private bool birdsPresent;
 	public GameObject player;
 	private ParticleSystem playerParticles;
 
@@ -62,28 +63,24 @@ public class MakeSound : MonoBehaviour {
 		audioSource = GetComponent<AudioSource> ();
 		note = 0;
 		ifFinish = false;
+		birdsPresent = false;
 
 		matrixSize = 10;
 		transitionMatrix = new int[matrixSize,matrixSize];
 		tripletList = new List<int[]> ();
 		ParseTransitionMatrix ();
-		int noteSeed = UnityEngine.Random.Range (0, matrixSize);
-		GenerateTriplet (noteSeed);
+
 		currentActiveTripletIndex = 0;
 		currentActiveNoteIndex = 0;
 		currentMaxTripletIndex = 0;
-		//clickBird = birdGenerator.birdList[0].bird.GetComponent<ClickBird> ();
-
 		prevIndex = 0;
-
-
 	}
 
 	// Update is called once per frame
 	void Update () {
 
+		Cheat ();
 		SoundLogic ();
-		//CheckSourcesToStopPlayerParticles ();
 
 		/*if (audioSource.isPlaying == false) {
 			characterani.SetBool ("isplaying", false); 
@@ -91,6 +88,19 @@ public class MakeSound : MonoBehaviour {
 
 	}
 
+
+	void Cheat(){
+		if (Input.GetKeyDown(KeyCode.Space)){
+			int currentBirds = birdGenerator.birdList.Count;
+			if (currentLastNote == null) {
+				currentLastNote = 0;
+			}
+			for (int i = 0; i < 4-currentBirds; i++){
+				GenerateTriplet(currentLastNote);
+			}
+			GameWin();
+		}
+	}
 
 	void ParseTransitionMatrix(){
 		string fileFullString;
@@ -126,17 +136,23 @@ public class MakeSound : MonoBehaviour {
 
 	int GenerateNote(int lastNote){
 		int note = 0;
-		int noteRange = 0;
-		for (int i = 0; i < matrixSize; i++) {
-			noteRange += transitionMatrix [lastNote,i];
-		} 
-		int nextNoteLocation = UnityEngine.Random.Range (0, noteRange);
-		int currentLocation = 0;
-		for (int j = 0; j < matrixSize; j++) {
-			currentLocation += transitionMatrix [lastNote, j];
-			if (currentLocation > nextNoteLocation) {
-				note = j;
-				break;
+		int markovOrRandom = 0;
+		markovOrRandom = UnityEngine.Random.Range (0, 10);
+		if (markovOrRandom < 3) {
+			note = UnityEngine.Random.Range (0, 10);
+		} else {
+			int noteRange = 0;
+			for (int i = 0; i < matrixSize; i++) {
+				noteRange += transitionMatrix [lastNote, i];
+			} 
+			int nextNoteLocation = UnityEngine.Random.Range (0, noteRange);
+			int currentLocation = 0;
+			for (int j = 0; j < matrixSize; j++) {
+				currentLocation += transitionMatrix [lastNote, j];
+				if (currentLocation > nextNoteLocation) {
+					note = j;
+					break;
+				}
 			}
 		}
 
@@ -153,6 +169,22 @@ public class MakeSound : MonoBehaviour {
 		}
 		for (int k = 0; k < count; k++){
 			birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0, onNewBird);
+		}
+	}
+
+	void GameWin(){
+		ifFinish = true;
+		characterani.SetBool ("iscorrect", true);
+		endBk.SetBool ("isSunrise", true);
+		treeLight.SetBool ("isTreelight", true);
+		StartCoroutine (GameWinSong());
+	}
+
+	IEnumerator GameWinSong(){
+		yield return new WaitForSeconds (1.5f);
+		for (int j = 0; j < birdGenerator.birdList.Count; j++) {
+			ClickBird clickBird = birdGenerator.birdList [j].GetComponent<ClickBird> ();
+			yield return StartCoroutine(clickBird.playSong(false));
 		}
 	}
 
@@ -185,7 +217,12 @@ public class MakeSound : MonoBehaviour {
 			/*audioSource.clip = sounds [i];
 		audioSource.Play ();*/
 
-			if (!ifFinish) {
+			if (!birdsPresent) {
+				int noteSeed = UnityEngine.Random.Range (0, matrixSize);
+				GenerateTriplet (noteSeed);
+				birdsPresent = true;
+			}
+			else if (!ifFinish) {
 				if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
 					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
 					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex, false);
@@ -200,10 +237,7 @@ public class MakeSound : MonoBehaviour {
 								currentMaxTripletIndex += 1;
 								ResetPlaceInSong (true);
 							} else {
-								ifFinish = true;
-								characterani.SetBool ("iscorrect", true);
-								endBk.SetBool ("isSunrise", true);
-								treeLight.SetBool ("isTreelight", true);
+								GameWin ();
 							}
 						}
 					}
@@ -213,9 +247,6 @@ public class MakeSound : MonoBehaviour {
 				} 
 			}
 		}
-
-
-
 	}
 
 	void SoundLogic()
@@ -280,7 +311,6 @@ public class MakeSound : MonoBehaviour {
 	
 	void activeButton(int index, bool held){
 		ButtonImage[index].gameObject.SetActive(held);
-		
 	}
 
 
