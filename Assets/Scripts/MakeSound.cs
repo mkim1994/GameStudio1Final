@@ -180,6 +180,7 @@ public class MakeSound : MonoBehaviour {
 		characterani.SetBool ("iscorrect", true);
 		endBk.SetBool ("isSunrise", true);
 		treeLight.SetBool ("isTreelight", true);
+		callUI.InitiateGameEndFadeOut ();
 		StartCoroutine (GameWinSong());
 	}
 

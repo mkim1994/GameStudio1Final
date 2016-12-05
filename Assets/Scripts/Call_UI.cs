@@ -23,12 +23,22 @@ public class Call_UI : MonoBehaviour {
 		birdUIImages = birdUI.GetComponentsInChildren<Image> ();
 		makeSound =  GameObject.FindWithTag("MusicManager").GetComponent<MakeSound> ();
 
-		SetBirdUIAlphaToZero ();
+		SetUIAlphaToZero ();
+		FadeInOcarina ();
 	}
 
-	void SetBirdUIAlphaToZero(){
+	void SetUIAlphaToZero(){
 		for (int i = 0; i < birdUIImages.Length; i++) {
 			birdUIImages [i].canvasRenderer.SetAlpha (0);
+		}
+		for (int j = 0; j < ocarinaImages.Length; j++) {
+			ocarinaImages [j].canvasRenderer.SetAlpha (0);
+		}
+	}
+
+	void FadeInOcarina(){
+		for (int j = 0; j < ocarinaImages.Length; j++) {
+			ocarinaImages [j].CrossFadeAlpha (1, 1, false);
 		}
 	}
 
@@ -40,29 +50,16 @@ public class Call_UI : MonoBehaviour {
 		iTween.PunchScale (birdUIImages [index].gameObject, new Vector3 (1.05f, 1.05f, 1.05f), 1f);
 	}
 
+	public void InitiateGameEndFadeOut(){
+		for (int i = 0; i < birdUIImages.Length; i++) {
+			birdUIImages [i].CrossFadeAlpha (0, 1, false);
+		}
+		for (int j = 0; j < ocarinaImages.Length; j++) {
+			ocarinaImages [j].CrossFadeAlpha (0, 1, false);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
-		if(isFadein && alpha <= 1)
-		{
-			alpha += 0.01f;
-			for (int i = 0; i < ocarinaImages.Length; i++) {
-				ocarinaImages [i].color = new Color(1,1,1,alpha);
-			}	
-		}
-
-		if (alpha >= 1) {
-			isFadein = false;
-		}
-	
-
-		if (makeSound.ifFinish) {
-
-			alpha -= 0.01f;
-			SetBirdUIAlphaToZero ();
-			for (int i = 0; i < ocarinaImages.Length; i++) {
-				ocarinaImages [i].color = new Color(1,1,1,alpha);
-
-			}
-		}
 	}
 }
