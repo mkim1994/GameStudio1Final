@@ -7,15 +7,13 @@ using System;
 
 
 public class MakeSound : MonoBehaviour {
-	public AudioClip[] sounds;
+	//public AudioClip[] sounds;
 
 	public AudioSource[] soundsources;
 	public AudioSource[] shortsounds;
 
 	public KeyCode[] music_keys;
 	public Image[] ButtonImage;
-	public Sprite DeactivateImage;
-	public Sprite activateImage;
 
 	public TextAsset transitionMatrixFile;
 
@@ -261,7 +259,7 @@ public class MakeSound : MonoBehaviour {
 
 
 
-		for (int i = 0; i < sounds.Length; i++) {
+		for (int i = 0; i < shortsounds.Length/2; i++) {
 			if (!currentlyplaying) {
 				if (Input.GetKey (KeyCode.J)) {
 					activeButton (5,true);
