@@ -23,6 +23,7 @@ public class ClickBird : MonoBehaviour {
 	public Material confusedMaterial;
 	public Material playingMaterial;
 	private Renderer birdRenderer;
+	private Call_UI callUI;
 
 	public float timeBetweenBirdNotes; 
 	public float timeBetweenFades; //should always be shorter than timeBetweenBirdNotes
@@ -43,6 +44,8 @@ public class ClickBird : MonoBehaviour {
 		playingParticles = transform.Find ("BirdPlayingParticles").GetComponent<ParticleSystem> ();
 		birdRenderer = transform.Find ("pCube8").GetComponent<Renderer> ();
 
+		callUI = GameObject.FindWithTag ("MainCamera").GetComponent<Call_UI> ();
+
 
 		playingParticles.startColor = particleColor;
 		confusedParticles.startColor = particleColor;
@@ -53,8 +56,9 @@ public class ClickBird : MonoBehaviour {
 	}
 
 	void Update () {
-			if (Input.GetKeyDown (birdKeys [birdIndex])) {
+		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
+
 				makeSound.ResetPlaceInSong (false);
 				birdGenerator.SetSongPlayingPrivilege (false);
 				StartCoroutine (playSong (false));

@@ -39,7 +39,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011324324060}
-  m_LocalRotation: {x: 0.041352328, y: -0.8986224, z: 0.027707214, w: 0.43589}
+  m_LocalRotation: {x: 0.040469427, y: -0.8996898, z: 0.027794756, w: 0.43376037}
   m_LocalPosition: {x: 43.9, y: 28.89, z: 36.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 4.8830004, y: -128.64, z: -2.802}
@@ -128,7 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  canvas: {fileID: 0}
+  ocarina: {fileID: 0}
+  birdUI: {fileID: 0}
   makeSound: {fileID: 0}
 --- !u!114 &114000012036461218
 MonoBehaviour:
@@ -282,8 +283,8 @@ MonoBehaviour:
       m_NumColorKeys: 5
       m_NumAlphaKeys: 5
     m_glareMaxPassCount: 4
-    m_currentWidth: 254
-    m_currentHeight: 159
+    m_currentWidth: 322
+    m_currentHeight: 201
     m_currentGlareType: 0
     m_currentGlareIdx: 0
     m_perPassDisplacement: 4

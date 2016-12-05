@@ -23,6 +23,7 @@ public class MakeSound : MonoBehaviour {
 	//private ClickBird clickBird;
 	public GameObject birdGeneratorObj;
 	private BirdGenerator birdGenerator;
+	private Call_UI callUI;
 
 	private int[,] transitionMatrix;
 	private int matrixSize;
@@ -59,6 +60,7 @@ public class MakeSound : MonoBehaviour {
 		treeLight = GameObject.FindWithTag("Tree").GetComponent<Animator> ();
 		birdGenerator = birdGeneratorObj.GetComponent<BirdGenerator> ();
 		playerParticles = player.GetComponentInChildren<ParticleSystem> ();
+		callUI = mainCamera.GetComponent<Call_UI> ();
 
 		audioSource = GetComponent<AudioSource> ();
 		note = 0;
@@ -131,6 +133,7 @@ public class MakeSound : MonoBehaviour {
 		currentLastNote = thirdNote;
 		tripletList.Add (triplet);
 		birdGenerator.AddNewBird (triplet);
+		callUI.ActivateBirdUIButton (currentMaxTripletIndex);
 		//StartCoroutine (birdGenerator.birdList[birdGenerator.birdList.Count-1].bird.GetComponent<ClickBird>().playSong (true));
 	}
 
@@ -233,8 +236,8 @@ public class MakeSound : MonoBehaviour {
 						currentActiveTripletIndex += 1;
 						if (currentActiveTripletIndex > currentMaxTripletIndex) {
 							if (currentActiveTripletIndex < maxSongLength) {
-								GenerateTriplet (currentLastNote);
 								currentMaxTripletIndex += 1;
+								GenerateTriplet (currentLastNote);
 								ResetPlaceInSong (true);
 							} else {
 								GameWin ();
