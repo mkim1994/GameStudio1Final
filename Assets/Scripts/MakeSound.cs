@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class MakeSound : MonoBehaviour {
@@ -49,6 +50,8 @@ public class MakeSound : MonoBehaviour {
 
 	private int prevIndex;
 
+	private GameObject UpperBodyTurn;
+
 
 	// Use this for initialization
 	void Start () {
@@ -59,6 +62,8 @@ public class MakeSound : MonoBehaviour {
 		birdGenerator = birdGeneratorObj.GetComponent<BirdGenerator> ();
 		playerParticles = player.GetComponentInChildren<ParticleSystem> ();
 		callUI = mainCamera.GetComponent<Call_UI> ();
+
+		UpperBodyTurn = GameObject.FindWithTag ("UpperBodyTurn");
 
 		audioSource = GetComponent<AudioSource> ();
 		note = 0;
@@ -179,7 +184,6 @@ public class MakeSound : MonoBehaviour {
 		endBk.SetBool ("isSunrise", true);
 		treeLight.SetBool ("isTreelight", true);
 		callUI.InitiateGameEndFadeOut ();
-		birdGenerator.AddFinalBlueBird ();
 		StartCoroutine (GameWinSong());
 	}
 
@@ -189,6 +193,16 @@ public class MakeSound : MonoBehaviour {
 			ClickBird clickBird = birdGenerator.birdList [j].GetComponent<ClickBird> ();
 			yield return StartCoroutine(clickBird.playSong(false));
 		}
+
+		birdGenerator.AddFinalBlueBird ();
+		yield return new WaitForSeconds(1.5f);
+		characterani.enabled = false;
+		iTween.RotateAdd (UpperBodyTurn, new Vector3(-25f,0f,0f), 4f);
+		yield return new WaitForSeconds(2f);
+		GameObject.FindWithTag ("OcarinaCanvas").GetComponent<Animator> ().SetTrigger("fadeouttime");
+		yield return new WaitForSeconds (2f);
+		SceneManager.LoadScene ("EndMenu");
+
 	}
 
 
