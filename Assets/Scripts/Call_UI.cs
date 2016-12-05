@@ -13,6 +13,8 @@ public class Call_UI : MonoBehaviour {
 	public GameObject player;
 	public GameObject ocarina;
 	public GameObject birdUI;
+	public Sprite octaveShiftedOcarina;
+	public Sprite ocarinaSprite;
 	public MakeSound makeSound;
 
 	void Start()
@@ -61,5 +63,11 @@ public class Call_UI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey(KeyCode.J)){
+			ocarina.GetComponent<Image>().sprite = octaveShiftedOcarina;
+		}
+		else {
+			ocarina.GetComponent<Image>().sprite = ocarinaSprite;
+		}
 	}
 }

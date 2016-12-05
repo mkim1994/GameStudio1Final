@@ -127,9 +127,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab234cd591461545b875bff6474a71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  birdUIImages: []
   player: {fileID: 0}
   ocarina: {fileID: 0}
   birdUI: {fileID: 0}
+  octaveShiftedOcarina: {fileID: 21300000, guid: 032649d5bd0c04aa4a052497b7a84953,
+    type: 3}
+  ocarinaSprite: {fileID: 21300000, guid: 7514fae0e79ff425ea2534095f5402d5, type: 3}
   makeSound: {fileID: 0}
 --- !u!114 &114000012036461218
 MonoBehaviour:
