@@ -181,6 +181,7 @@ public class MakeSound : MonoBehaviour {
 		endBk.SetBool ("isSunrise", true);
 		treeLight.SetBool ("isTreelight", true);
 		callUI.InitiateGameEndFadeOut ();
+		birdGenerator.AddFinalBlueBird ();
 		StartCoroutine (GameWinSong());
 	}
 

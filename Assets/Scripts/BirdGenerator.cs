@@ -7,8 +7,11 @@ public class BirdGenerator : MonoBehaviour {
 	public List<GameObject> birdList;
 	public GameObject birdPrefab;
 	public Vector3[] birdLocations;
+	public GameObject[] birdLocationObjects;
+	public GameObject blueBirdLocationObject;
 	public KeyCode[] birdKeys;
 	public Material[] birdMaterials;
+	public Material blueBirdMaterial;
 	public Material[] confusedMaterials;
 	public Material[] playingMaterials;
 
@@ -60,6 +63,21 @@ public class BirdGenerator : MonoBehaviour {
 
 		Vector3[] path = new Vector3[2]{ spotAboveTree, targetLocation };
 		iTween.MoveTo(newBird, iTween.Hash("path", path, "time", 2, "easetype", "easeOutCubic"));
+	}
+
+	public void AddFinalBlueBird(){
+		GameObject blueBird;
+		Vector3 targetLocation = blueBirdLocationObject.transform.position;
+		Vector3 spawnLocation = new Vector3 (targetLocation.x - 10, targetLocation.y - 10, targetLocation.z - 10);
+		Vector3 tweenPathMidpoint = new Vector3 (spawnLocation.x, spawnLocation.y + 20, spawnLocation.z);
+		Quaternion birdRotation = Quaternion.Euler (0, -90, 0);
+		blueBird = Instantiate (birdPrefab, spawnLocation, birdRotation) as GameObject;
+
+		blueBird.GetComponent<ClickBird> ().birdMaterial = blueBirdMaterial;
+
+		Vector3[] path = new Vector3[2]{ tweenPathMidpoint, targetLocation };
+
+		iTween.MoveTo(blueBird, iTween.Hash("path", path, "time", 4, "easetype", "easeOutCubic"));
 	}
 
 	// Update is called once per frame
