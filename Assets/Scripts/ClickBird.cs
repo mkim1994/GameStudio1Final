@@ -58,6 +58,7 @@ public class ClickBird : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (birdKeys [birdIndex])) {
 			if (allowedToPlay) {
+				callUI.PressBirdUIButton (birdIndex);
 				makeSound.ResetPlaceInSong (false);
 				birdGenerator.SetSongPlayingPrivilege (false);
 				StartCoroutine (playSong (false));
