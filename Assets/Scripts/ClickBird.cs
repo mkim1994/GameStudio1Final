@@ -20,6 +20,8 @@ public class ClickBird : MonoBehaviour {
 	public ParticleSystem playingParticles;
 	public Color particleColor;
 	public Material birdMaterial;
+	public Material confusedMaterial;
+	public Material playingMaterial;
 	private Renderer birdRenderer;
 
 	public float timeBetweenBirdNotes; 
@@ -44,8 +46,10 @@ public class ClickBird : MonoBehaviour {
 
 		playingParticles.startColor = particleColor;
 		confusedParticles.startColor = particleColor;
-		birdRenderer.material = birdMaterial;
 
+		birdRenderer.material = birdMaterial;
+		confusedParticles.transform.GetComponent<ParticleSystemRenderer> ().material = confusedMaterial;
+		playingParticles.transform.GetComponent<ParticleSystemRenderer> ().material = playingMaterial;
 	}
 
 	void Update () {
@@ -69,6 +73,7 @@ public class ClickBird : MonoBehaviour {
 		}
 
 	}
+
 
 	public void SetHappyParticles(bool on, int noteNum, bool newBird){
 		if (on) {

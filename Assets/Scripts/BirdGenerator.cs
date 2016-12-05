@@ -9,6 +9,9 @@ public class BirdGenerator : MonoBehaviour {
 	public Vector3[] birdLocations;
 	public KeyCode[] birdKeys;
 	public Material[] birdMaterials;
+	public Material[] confusedMaterials;
+	public Material[] playingMaterials;
+
 	private Color[] birdColors;
 
 	// Use this for initialization
@@ -50,6 +53,9 @@ public class BirdGenerator : MonoBehaviour {
 		int index = birdList.Count - 1;
 		clickBird.birdIndex = index;
 		clickBird.birdMaterial = birdMaterials [index];
+		clickBird.confusedMaterial = confusedMaterials [index];
+		clickBird.playingMaterial = playingMaterials [index];
+
 		//clickBird.particleColor = birdColors [index];
 
 		Vector3[] path = new Vector3[2]{ spotAboveTree, targetLocation };
