@@ -301,21 +301,16 @@ public class MakeSound : MonoBehaviour {
 				if (!currplaying && !currentlyPlayingAudio [i]) {
 					GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
 					obj.GetComponent<AudioSource> ().clip = audioclips [i];
-					//obj.GetComponent<AudioSource> ().Play ();
 					SoundKeyPressed (i);
 					StartCoroutine (fadeInAudio (obj.GetComponent<AudioSource> (), i));
 					audios.Add (obj);
 					currentlyPlayingAudio [i] = true;
-					Debug.Log ("starting " + i);
 				}
 			}
 		} else if (currentlyPlayingAudio[i]) {
-			Debug.Log ("stopping " + i);
 			currentlyPlayingAudio [i] = false;
 			activeButton (i%5, false);
 			GameObject temp = audios [audios.Count - 1];
-			//temp.GetComponent<AudioSource> ().Stop ();
-
 			audios.RemoveAt(audios.Count - 1);
 			StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>(), i));
 		}
@@ -331,6 +326,9 @@ public class MakeSound : MonoBehaviour {
 				SoundSublogic(i + 5);
 			} else {
 				activeButton (5, false);
+				/*for(int g = 0; g < audios.Count; g++){
+					StartCoroutine (fadeOutAudio (audios[g].GetComponent<AudioSource>(), i + 5));
+				}*/
 				SoundSublogic (i);
 			}
 		}
@@ -364,128 +362,6 @@ public class MakeSound : MonoBehaviour {
 		currentlyFadingOut [i] = false;
 		aud.volume = 0f;
 		aud.Stop ();
-		print ("stop");
 		Destroy (aud.gameObject);
 	}
-	/*
-	IEnumerator fadeAudio(int i, bool fadein){
-
-
-		if (!fadein) {
-			float fadeoutdur = 0.1f;
-			while (soundsources [i].volume > 0.0f) {
-				soundsources [i].volume -= Time.deltaTime / fadeoutdur;
-				yield return null;
-			}
-			soundsources [i].volume = 0.0f;
-			soundsources [i].Stop ();
-		}
-
-		if (fadein) {
-			float fadeindur = 0.1f;
-			soundsources [i].volume = 0.0f;
-			soundsources [i].Play ();
-			while (soundsources [i].volume < defaultvolume) {
-				soundsources [i].volume += Time.deltaTime / fadeindur;
-				yield return null;
-			}
-			soundsources [i].volume = defaultvolume;
-		}
-
-	}
-
-
-	/*
-
-	void SoundLogic(){
-		for (int i = 0; i < music_keys.Length; i++) {
-			
-			//toggle octave
-			if (Input.GetKey (KeyCode.J)) { //higher octave
-				activeButton(5,true);
-
-				//make sure all the sounds from regular octave are not playing
-				for(int j = 0; j < music_keys.Length; j++){
-					StartCoroutine (fadeAudio (j, false));
-					//soundsources[j].Stop();
-				}
-
-				if (Input.GetKey (music_keys [i])) {
-
-					//need to check if other notes are being played currently
-					bool currplaying = false;
-					for (int k = 0; k < soundsources.Length; k++) {
-						if (soundsources [k].isPlaying) {
-							currplaying = true;
-						}
-					}
-
-					//no notes are playing. safe
-					if (!currplaying) {
-						SoundKeyPressed (i + 5);
-						StartCoroutine(fadeAudio (i + 5, true));
-					}
-				} else { //keys are no longer held
-					activeButton(i,false);
-					StartCoroutine(fadeAudio (i + 5, false));
-				}
-
-			} else { //regular octave
-				activeButton(5,false);
-
-				//make sure all the sounds from octave higher are not playing
-				for(int j = 0; j < music_keys.Length; j++){
-					StartCoroutine (fadeAudio(j + 5, false));
-					//soundsources[j+5].Stop();
-				}
-
-				if (Input.GetKey (music_keys [i])) {
-
-					bool currplaying = false;
-					for (int k = 0; k < soundsources.Length; k++) {
-						if (soundsources [k].isPlaying) { //maybe: i <= k
-							currplaying = true;
-						}
-					}
-
-					//no notes are playing. safe
-					if (!currplaying) {
-						SoundKeyPressed (i);
-						StartCoroutine(fadeAudio (i, true));
-					}
-				} else { //keys are no longer held
-					activeButton(i, false);
-					StartCoroutine(fadeAudio (i, false));
-				}
-			}
-		}
-	}
-
-	IEnumerator fadeAudio(int i, bool fadein){
-
-
-		if (!fadein) {
-			float fadeoutdur = 0.1f;
-			while (soundsources [i].volume > 0.0f) {
-				soundsources [i].volume -= Time.deltaTime / fadeoutdur;
-				yield return null;
-			}
-			soundsources [i].volume = 0.0f;
-			soundsources [i].Stop ();
-		}
-
-		if (fadein) {
-			float fadeindur = 0.1f;
-			soundsources [i].volume = 0.0f;
-			soundsources [i].Play ();
-			while (soundsources [i].volume < defaultvolume) {
-				soundsources [i].volume += Time.deltaTime / fadeindur;
-				yield return null;
-			}
-			soundsources [i].volume = defaultvolume;
-		}
-
-	}
-
-*/
 }
