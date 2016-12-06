@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 
 
 public class MakeSound : MonoBehaviour {
-	//public AudioClip[] sounds;
+
+	private bool currentlyplaying;
+	private float defaultvolume = 0.3f;
 
 	public AudioSource[] soundsources;
 	public AudioSource[] shortsounds;
@@ -230,26 +232,17 @@ public class MakeSound : MonoBehaviour {
 
 		prevIndex = i;
 
-		if (!shortsounds [i].isPlaying) {
-
-			/*soundsources [i].volume = 0.0f;
-			soundsources [i].Play ();*/
-			//StartCoroutine (fadeAudio (i, true));
-			//shortsounds[i].PlayOneShot(shortsounds[i].clip);
+		//if (!shortsounds [i].isPlaying) {
 			shortsounds [i].volume = 1.0f;
 			shortsounds[i].Play();
 
 			characterani.SetBool ("isplaying", true);
-			//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifPressed", true);
 
 			if (i > 4) {
 				activeButton (i - 5, true);
 			} else {
 				activeButton (i, true);
 			}
-
-			/*audioSource.clip = sounds [i];
-		audioSource.Play ();*/
 
 			if (!birdsPresent) {
 				int noteSeed = UnityEngine.Random.Range (0, matrixSize);
@@ -280,117 +273,127 @@ public class MakeSound : MonoBehaviour {
 					ResetPlaceInSong (false);
 				} 
 			}
-		}
+		//}
 	}
 
-	void SoundLogic()
+
+	void activeButton(int index, bool held){
+		ButtonImage[index].gameObject.SetActive(held);
+	}
+
+	void SoundLogic(){
+		for (int i = 0; i < music_keys.Length; i++) {
+			
+			//toggle octave
+			if (Input.GetKey (KeyCode.J)) { //higher octave
+				activeButton(5,true);
+
+				//make sure all the sounds from regular octave are not playing
+				for(int j = 0; j < music_keys.Length; j++){
+					soundsources [j].Stop ();
+				}
+
+				if (Input.GetKey (music_keys [i])) {
+					if (!soundsources[i+5].isPlaying) {
+						SoundKeyPressed (i + 5);
+						soundsources [i + 5].Play ();
+					}
+				} else { //keys are no longer held
+					activeButton(i,false);
+					soundsources [i + 5].Stop ();
+				}
+
+			} else { //regular octave
+				activeButton(5,false);
+
+				//make sure all the sounds from octave higher are not playing
+				for(int j = 0; j < music_keys.Length; j++){
+					soundsources [j + 5].Stop ();
+				}
+
+				if (Input.GetKey (music_keys [i])) {
+					if (!soundsources [i].isPlaying) {
+						SoundKeyPressed (i);
+						soundsources [i].Play ();
+					}
+				} else { //keys are no longer held
+					activeButton(i, false);
+					soundsources [i].Stop ();
+				}
+			}
+
+
+		}
+
+	}
+
+/*	void SoundLogic()
 	{
 
-		bool currentlyplaying = false;
-		//check if there are any sounds currently playing
-
-
+		currentlyplaying = false;
 
 		for (int i = 0; i < shortsounds.Length/2; i++) {
 			if (!currentlyplaying) {
 				if (Input.GetKey (KeyCode.J)) {
 					activeButton (5,true);
 					if (Input.GetKeyDown (music_keys [i])) {
-					
-						//shortsounds [i].pitch = 2;
 						SoundKeyPressed (i+5);
-						//StartCoroutine (fadeAudio (i, true));
-						//soundsources[i].pitch = 2;
-						//soundsources [i].Play ();
-						//StartCoroutine (fadeAudio (i, true));
+						StartCoroutine (fadeAudio (i, true));
+						//soundsources [i+5].Play ();
 						currentlyplaying = true;
 					}
-				} else if (Input.GetKeyDown (music_keys [i])) {
-					//shortsounds [i].pitch = 1;
+				}  else if (Input.GetKeyDown (music_keys [i])) {
 					SoundKeyPressed (i);
-					//StartCoroutine (fadeAudio (i, true));
-					//	soundsources[i].pitch = 1;
-					//soundsources [i].Play ();
-					//StartCoroutine (fadeAudio (i, true));
+					StartCoroutine (fadeAudio (i, true));
+					soundsources [i].Play ();
+					StartCoroutine (fadeAudio (i, true));
 					currentlyplaying = true;
 				}
-
-				if (Input.GetKeyUp (music_keys [i])) {
-					activeButton(i, false);
-					//StartCoroutine(fadeAudio(i,false));
-				} else if(Input.GetKeyUp(KeyCode.J)){
-					activeButton(5,false);
-				}
 			}
-
-			/*if (Input.GetKeyDown (music_keys [i]) && prevIndex != i) {
-			StartCoroutine (fadeAudio (prevIndex));
-		}*/
-
-			/*if (Input.GetKey (music_keys [i]) && Input.GetKey (KeyCode.Space)) {
-			soundsources [i].pitch = 2;
-			soundsources [i].volume = 1.0f;
-			SoundKeyPressed (i, true);
-		} else if (Input.GetKey (music_keys [i])) {
-			//else if (Input.GetKeyDown (music_keys [i])) {
-			soundsources [i].pitch = 1;
-			soundsources [i].volume = 1.0f;
-			SoundKeyPressed (i, false);
-		} else if (Input.GetKeyUp (music_keys [i])) {
-			StartCoroutine (fadeAudio (i, false));
-		}*/
-
+			if (Input.GetKeyUp (music_keys [i])) {
+				activeButton(i, false);
+				if (Input.GetKey (KeyCode.J)) {
+					StartCoroutine (fadeAudio (i+5, false));
+				}  else {
+					StartCoroutine (fadeAudio (i, false));
+				}
+				currentlyplaying = false;
+			} 
+			if(Input.GetKeyUp(KeyCode.J)){
+				activeButton(5,false);
+			}
 		}
 	}
-	
-	void activeButton(int index, bool held){
-		ButtonImage[index].gameObject.SetActive(held);
-	}
-
-
+*/
 	IEnumerator fadeAudio(int i, bool fadein){
 		float startVolume;
 		float endVolume;
 		float duration;
 		float startTime = Time.time;
 		if (fadein) {
+			soundsources [i].Play ();
 			startVolume = 0.0f;
-			endVolume = 1.0f;
-			duration = 0.5f;
-		} else { //fadeout
-			//startVolume = soundsources [i].volume;
-			startVolume = 1.0f;
+			endVolume = defaultvolume;
+			duration = 0.06f;
+		}  else { //fadeout
+			startVolume = defaultvolume;
 			endVolume = 0.0f;
-			duration = 0.5f;
+			duration = 0.05f;
 		}
 		float inverseDuration = 1.0f / duration;
 		float lerpFactor = 0.0f;
 		while (lerpFactor <= 1.0f && ((fadein && soundsources[i].volume < 1.0f) ||
 			!fadein && soundsources[i].volume > 0.0f)) {
-
-			//soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
-
-			/*
-			soundsources[i].volume = Mathf.SmoothDamp(startVolume, endVolume, lerpFactor, duration);
-			lerpFactor = lerpFactor + Time.deltaTime * inverseDuration;
-			yield return 1.0f;*/
-
 			lerpFactor += Time.deltaTime / duration;
 			soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
 			yield return null;
 		}
 
-
-
 		if (!fadein) {
 			soundsources [i].volume = 0.0f;
-
 			soundsources [i].Stop ();
-
-
-		} else {
-			soundsources [i].volume = 1.0f;
+		}  else {
+			soundsources [i].volume = defaultvolume;
 		}
 	}
-
 }
