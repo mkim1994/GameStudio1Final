@@ -38,13 +38,7 @@ public class ClickBird : MonoBehaviour {
 		soundManager = GameObject.FindWithTag ("MusicManager");
 		makeSound = soundManager.GetComponent<MakeSound> ();
 		audioSource = GetComponent<AudioSource> ();
-		//sounds = makeSound.sounds;
-
-		AudioSource[] tempsounds = makeSound.soundsources;
-		sounds = new AudioClip[tempsounds.Length];
-		for (int a = 0; a < tempsounds.Length; a++) {
-			sounds [a] = tempsounds [a].clip;
-		}
+	
 
 		GameObject birdGenObj = GameObject.FindWithTag ("BirdGenerator");
 		birdGenerator = birdGenObj.GetComponent<BirdGenerator> ();

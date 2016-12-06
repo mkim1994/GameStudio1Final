@@ -20,9 +20,6 @@ public class MakeSound : MonoBehaviour {
 	private bool currentlyplaying;
 	private float defaultvolume = 0.3f;
 
-	public AudioSource[] soundsources;
-	public AudioSource[] shortsounds;
-
 	public KeyCode[] music_keys;
 	public Image[] ButtonImage;
 
