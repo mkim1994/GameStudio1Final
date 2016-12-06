@@ -12,6 +12,10 @@ public class MakeSound : MonoBehaviour {
 	public GameObject AudioPlayer;
 	public AudioClip[] audioclips;
 	private List<GameObject> audios;
+	private bool[] currentlyPlayingAudio;
+	private bool[] currentlyFadingOut;
+	private bool keyPressed;
+	private bool keyPressedThisFrame;
 
 	private bool currentlyplaying;
 	private float defaultvolume = 0.3f;
@@ -71,6 +75,14 @@ public class MakeSound : MonoBehaviour {
 		callUI = mainCamera.GetComponent<Call_UI> ();
 
 		audios = new List<GameObject> ();
+		currentlyPlayingAudio = new bool[10];
+		currentlyFadingOut = new bool[10];
+		for (int i = 0; i < 10; i++) {
+			currentlyPlayingAudio [i] = false;
+			currentlyFadingOut [i] = false;
+		}
+		keyPressed = false;
+		keyPressedThisFrame = false;
 
 		UpperBodyTurn = GameObject.FindWithTag ("UpperBodyTurn");
 
@@ -282,92 +294,82 @@ public class MakeSound : MonoBehaviour {
 		ButtonImage[index].gameObject.SetActive(held);
 	}
 
+	void SoundSublogic(int i){
+		if (Input.GetKey (music_keys [i%5])) {
+			keyPressedThisFrame = true;
+			if (!keyPressed) {
+				keyPressed = true;
+				activeButton (i%5, true);
+				bool currplaying = false; 
+				foreach (GameObject go in audios) {
+					if (go.GetComponent<AudioSource> ().clip == audioclips [i]) {
+						currplaying = true;
+					}
+				}
+				if (!currplaying && !currentlyPlayingAudio [i]) {
+					GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
+					obj.GetComponent<AudioSource> ().clip = audioclips [i];
+					//obj.GetComponent<AudioSource> ().Play ();
+					SoundKeyPressed (i);
+					StartCoroutine (fadeInAudio (obj.GetComponent<AudioSource> (), i));
+					audios.Add (obj);
+					currentlyPlayingAudio [i] = true;
+					Debug.Log ("starting " + i);
+				}
+			}
+		} else if (currentlyPlayingAudio[i]) {
+			Debug.Log ("stopping " + i);
+			currentlyPlayingAudio [i] = false;
+			activeButton (i%5, false);
+			GameObject temp = audios [audios.Count - 1];
+			//temp.GetComponent<AudioSource> ().Stop ();
+
+			audios.RemoveAt(audios.Count - 1);
+			StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>(), i));
+		}
+	}
+
 	void SoundLogic(){
+		keyPressedThisFrame = false;
 		for (int i = 0; i < music_keys.Length; i++) {
 
 			//toggle octave
 			if (Input.GetKey (KeyCode.J)) { //higher octave
 				activeButton (5, true);
-
-				if (Input.GetKey (music_keys [i])) {
-
-					activeButton (i, true);
-					bool currplaying = false; 
-					foreach (GameObject go in audios) {
-						if (go.GetComponent<AudioSource> ().clip == audioclips [i + 5]) {
-							currplaying = true;
-						}
-					}
-					if (!currplaying) {
-						GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
-						obj.GetComponent<AudioSource> ().clip = audioclips [i + 5];
-						//obj.GetComponent<AudioSource> ().Play ();
-						SoundKeyPressed(i+5);
-						StartCoroutine(fadeInAudio(obj.GetComponent<AudioSource>()));
-						audios.Add (obj);
-					}
-				} else if(Input.GetKeyUp(music_keys[i])) {
-					activeButton (i, false);
-					GameObject temp = audios [audios.Count - 1];
-					//temp.GetComponent<AudioSource> ().Stop ();
-
-					audios.RemoveAt(audios.Count - 1);
-					StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>()));
-
-
-				}
+				SoundSublogic(i + 5);
 			} else {
 				activeButton (5, false);
-
-				if (Input.GetKey (music_keys [i])) {
-
-					activeButton (i, true);
-					bool currplaying = false; 
-					foreach (GameObject go in audios) {
-						if (go.GetComponent<AudioSource> ().clip == audioclips [i]) {
-							currplaying = true;
-						}
-					}
-					if (!currplaying) {
-						GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
-						obj.GetComponent<AudioSource> ().clip = audioclips [i];
-						//obj.GetComponent<AudioSource> ().Play ();
-						SoundKeyPressed(i);
-						StartCoroutine(fadeInAudio(obj.GetComponent<AudioSource>()));
-						audios.Add (obj);
-					}
-				} else if(Input.GetKeyUp(music_keys[i])){
-					activeButton (i, false);
-					GameObject temp = audios [audios.Count - 1];
-					audios.RemoveAt(audios.Count - 1);
-					StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>()));
-
-
-				}
+				SoundSublogic (i);
 			}
-
+		}
+		if (!keyPressedThisFrame) {
+			keyPressed = false;
 		}
 
 	}
 
-	IEnumerator fadeInAudio(AudioSource aud){
+	IEnumerator fadeInAudio(AudioSource aud, int i){
 		float fadeindur = 1.0f;
-
 		aud.Play ();
 		aud.volume = 0.0f;
 		while (aud.volume < defaultvolume) {
+			if (currentlyFadingOut [i]) {
+				break;
+			}
 			aud.volume += Time.deltaTime / fadeindur;
 			yield return null;
 		}
 		aud.volume = defaultvolume;
 	}
 
-	IEnumerator fadeOutAudio(AudioSource aud){
+	IEnumerator fadeOutAudio(AudioSource aud, int i){
 		float fadeoutdur = 1.0f;
+		currentlyFadingOut [i] = true;
 		while (aud.volume > 0f) {
 			aud.volume -= Time.deltaTime / fadeoutdur;
 			yield return null;
 		}
+		currentlyFadingOut [i] = false;
 		aud.volume = 0f;
 		aud.Stop ();
 		print ("stop");
