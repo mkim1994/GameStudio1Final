@@ -44,7 +44,9 @@ public class BirdGenerator : MonoBehaviour {
 
 	public void AddNewBird(int[] triplet){
 		GameObject newBird;
-		Vector3 targetLocation = birdLocations [birdList.Count];
+		//Vector3 targetLocation = birdLocations [birdList.Count]; //birdlocationobjects transform.position
+
+		Vector3 targetLocation = birdLocationObjects [birdList.Count].transform.position;
 		Vector3 spawnLocation = new Vector3 (targetLocation.x - 10, targetLocation.y - 10, targetLocation.z);
 		Vector3 spotAboveTree = new Vector3 (spawnLocation.x, spawnLocation.y + 20, spawnLocation.z);
 
