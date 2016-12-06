@@ -16,5 +16,9 @@ public class EscapeScene : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name != "Menu" && Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("Menu");
 		}
+
+		if (SceneManager.GetActiveScene ().name == "MelScene" && Input.GetKeyDown (KeyCode.Return)) {
+			SceneManager.LoadScene ("MelScene");
+		}
 	}
 }
