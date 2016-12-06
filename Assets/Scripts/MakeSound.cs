@@ -86,11 +86,7 @@ public class MakeSound : MonoBehaviour {
 
 		Cheat ();
 		SoundLogic ();
-
-		/*if (audioSource.isPlaying == false) {
-			characterani.SetBool ("isplaying", false); 
-		}*/
-
+		CheckIfSoundsPlaying ();
 	}
 
 
@@ -104,6 +100,27 @@ public class MakeSound : MonoBehaviour {
 				GenerateTriplet(currentLastNote);
 			}
 			GameWin();
+		}
+	}
+
+	void CheckIfSoundsPlaying(){
+		bool soundPlaying = false;
+		for (int i = 0; i < shortsounds.Length; i++) {
+			if (shortsounds [i].isPlaying) {
+				soundPlaying = true;
+				break;
+			}
+		}
+		if (!soundPlaying) {
+			for (int j = 0; j < soundsources.Length; j++) {
+				if (soundsources [j].isPlaying) {
+					soundPlaying = true;
+					break;
+				}
+			}
+		}
+		if (!soundPlaying) {
+			characterani.SetBool ("isplaying", false);
 		}
 	}
 
