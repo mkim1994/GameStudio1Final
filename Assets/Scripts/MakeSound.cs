@@ -9,6 +9,10 @@ using UnityEngine.SceneManagement;
 
 public class MakeSound : MonoBehaviour {
 
+	public GameObject AudioPlayer;
+	public AudioClip[] audioclips;
+	private List<GameObject> audios;
+
 	private bool currentlyplaying;
 	private float defaultvolume = 0.3f;
 
@@ -55,6 +59,7 @@ public class MakeSound : MonoBehaviour {
 	private GameObject UpperBodyTurn;
 
 
+
 	// Use this for initialization
 	void Start () {
 		song = GetComponent<Songlist> ();
@@ -64,6 +69,8 @@ public class MakeSound : MonoBehaviour {
 		birdGenerator = birdGeneratorObj.GetComponent<BirdGenerator> ();
 		playerParticles = player.GetComponentInChildren<ParticleSystem> ();
 		callUI = mainCamera.GetComponent<Call_UI> ();
+
+		audios = new List<GameObject> ();
 
 		UpperBodyTurn = GameObject.FindWithTag ("UpperBodyTurn");
 
@@ -105,6 +112,7 @@ public class MakeSound : MonoBehaviour {
 		}
 	}
 
+	//WATCH OUT
 	void CheckIfSoundsPlaying(){
 		bool soundPlaying = false;
 		for (int i = 0; i < shortsounds.Length; i++) {
@@ -229,57 +237,171 @@ public class MakeSound : MonoBehaviour {
 
 		playerParticles.Emit (1);
 		playerParticles.Stop ();
-
 		prevIndex = i;
+		characterani.SetBool ("isplaying", true);
 
-		//if (!shortsounds [i].isPlaying) {
-			shortsounds [i].volume = 1.0f;
-			shortsounds[i].Play();
+		if (i > 4) {
+			activeButton (i - 5, true);
+		} else {
+			activeButton (i, true);
+		}
 
-			characterani.SetBool ("isplaying", true);
-
-			if (i > 4) {
-				activeButton (i - 5, true);
-			} else {
-				activeButton (i, true);
-			}
-
-			if (!birdsPresent) {
-				int noteSeed = UnityEngine.Random.Range (0, matrixSize);
-				GenerateTriplet (noteSeed);
-				birdsPresent = true;
-			}
-			else if (!ifFinish) {
-				if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
-					//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
-					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex, false);
-					if (currentActiveNoteIndex < 2) {
-						currentActiveNoteIndex += 1;
-					} else {
-						currentActiveNoteIndex = 0;
-						currentActiveTripletIndex += 1;
-						if (currentActiveTripletIndex > currentMaxTripletIndex) {
-							if (currentActiveTripletIndex < maxSongLength) {
-								currentMaxTripletIndex += 1;
-								GenerateTriplet (currentLastNote);
-								ResetPlaceInSong (true);
-							} else {
-								GameWin ();
-							}
+		if (!birdsPresent) {
+			int noteSeed = UnityEngine.Random.Range (0, matrixSize);
+			GenerateTriplet (noteSeed);
+			birdsPresent = true;
+		}
+		else if (!ifFinish) {
+			if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
+				//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
+				birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex, false);
+				if (currentActiveNoteIndex < 2) {
+					currentActiveNoteIndex += 1;
+				} else {
+					currentActiveNoteIndex = 0;
+					currentActiveTripletIndex += 1;
+					if (currentActiveTripletIndex > currentMaxTripletIndex) {
+						if (currentActiveTripletIndex < maxSongLength) {
+							currentMaxTripletIndex += 1;
+							GenerateTriplet (currentLastNote);
+							ResetPlaceInSong (true);
+						} else {
+							GameWin ();
 						}
 					}
-				} else {
-					birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().EmitConfusedParticle ();
-					ResetPlaceInSong (false);
-				} 
-			}
-		//}
+				}
+			} else {
+				birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().EmitConfusedParticle ();
+				ResetPlaceInSong (false);
+			} 
+		}
 	}
 
 
 	void activeButton(int index, bool held){
 		ButtonImage[index].gameObject.SetActive(held);
 	}
+
+	void SoundLogic(){
+		for (int i = 0; i < music_keys.Length; i++) {
+
+			//toggle octave
+			if (Input.GetKey (KeyCode.J)) { //higher octave
+				activeButton (5, true);
+
+				if (Input.GetKey (music_keys [i])) {
+
+					activeButton (i, true);
+					bool currplaying = false; 
+					foreach (GameObject go in audios) {
+						if (go.GetComponent<AudioSource> ().clip == audioclips [i + 5]) {
+							currplaying = true;
+						}
+					}
+					if (!currplaying) {
+						GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
+						obj.GetComponent<AudioSource> ().clip = audioclips [i + 5];
+						//obj.GetComponent<AudioSource> ().Play ();
+						SoundKeyPressed(i+5);
+						StartCoroutine(fadeInAudio(obj.GetComponent<AudioSource>()));
+						audios.Add (obj);
+					}
+				} else if(Input.GetKeyUp(music_keys[i])) {
+					activeButton (i, false);
+					GameObject temp = audios [audios.Count - 1];
+					//temp.GetComponent<AudioSource> ().Stop ();
+
+					audios.RemoveAt(audios.Count - 1);
+					StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>()));
+
+
+				}
+			} else {
+				activeButton (5, false);
+
+				if (Input.GetKey (music_keys [i])) {
+
+					activeButton (i, true);
+					bool currplaying = false; 
+					foreach (GameObject go in audios) {
+						if (go.GetComponent<AudioSource> ().clip == audioclips [i]) {
+							currplaying = true;
+						}
+					}
+					if (!currplaying) {
+						GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
+						obj.GetComponent<AudioSource> ().clip = audioclips [i];
+						//obj.GetComponent<AudioSource> ().Play ();
+						SoundKeyPressed(i);
+						StartCoroutine(fadeInAudio(obj.GetComponent<AudioSource>()));
+						audios.Add (obj);
+					}
+				} else if(Input.GetKeyUp(music_keys[i])){
+					activeButton (i, false);
+					GameObject temp = audios [audios.Count - 1];
+					audios.RemoveAt(audios.Count - 1);
+					StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>()));
+
+
+				}
+			}
+
+		}
+
+	}
+
+	IEnumerator fadeInAudio(AudioSource aud){
+		float fadeindur = 1.0f;
+
+		aud.Play ();
+		aud.volume = 0.0f;
+		while (aud.volume < defaultvolume) {
+			aud.volume += Time.deltaTime / fadeindur;
+			yield return null;
+		}
+		aud.volume = defaultvolume;
+	}
+
+	IEnumerator fadeOutAudio(AudioSource aud){
+		float fadeoutdur = 1.0f;
+		while (aud.volume > 0f) {
+			aud.volume -= Time.deltaTime / fadeoutdur;
+			yield return null;
+		}
+		aud.volume = 0f;
+		aud.Stop ();
+		print ("stop");
+		Destroy (aud.gameObject);
+	}
+	/*
+	IEnumerator fadeAudio(int i, bool fadein){
+
+
+		if (!fadein) {
+			float fadeoutdur = 0.1f;
+			while (soundsources [i].volume > 0.0f) {
+				soundsources [i].volume -= Time.deltaTime / fadeoutdur;
+				yield return null;
+			}
+			soundsources [i].volume = 0.0f;
+			soundsources [i].Stop ();
+		}
+
+		if (fadein) {
+			float fadeindur = 0.1f;
+			soundsources [i].volume = 0.0f;
+			soundsources [i].Play ();
+			while (soundsources [i].volume < defaultvolume) {
+				soundsources [i].volume += Time.deltaTime / fadeindur;
+				yield return null;
+			}
+			soundsources [i].volume = defaultvolume;
+		}
+
+	}
+
+
+	/*
 
 	void SoundLogic(){
 		for (int i = 0; i < music_keys.Length; i++) {
@@ -290,17 +412,28 @@ public class MakeSound : MonoBehaviour {
 
 				//make sure all the sounds from regular octave are not playing
 				for(int j = 0; j < music_keys.Length; j++){
-					soundsources [j].Stop ();
+					StartCoroutine (fadeAudio (j, false));
+					//soundsources[j].Stop();
 				}
 
 				if (Input.GetKey (music_keys [i])) {
-					if (!soundsources[i+5].isPlaying) {
+
+					//need to check if other notes are being played currently
+					bool currplaying = false;
+					for (int k = 0; k < soundsources.Length; k++) {
+						if (soundsources [k].isPlaying) {
+							currplaying = true;
+						}
+					}
+
+					//no notes are playing. safe
+					if (!currplaying) {
 						SoundKeyPressed (i + 5);
-						soundsources [i + 5].Play ();
+						StartCoroutine(fadeAudio (i + 5, true));
 					}
 				} else { //keys are no longer held
 					activeButton(i,false);
-					soundsources [i + 5].Stop ();
+					StartCoroutine(fadeAudio (i + 5, false));
 				}
 
 			} else { //regular octave
@@ -308,92 +441,57 @@ public class MakeSound : MonoBehaviour {
 
 				//make sure all the sounds from octave higher are not playing
 				for(int j = 0; j < music_keys.Length; j++){
-					soundsources [j + 5].Stop ();
+					StartCoroutine (fadeAudio(j + 5, false));
+					//soundsources[j+5].Stop();
 				}
 
 				if (Input.GetKey (music_keys [i])) {
-					if (!soundsources [i].isPlaying) {
+
+					bool currplaying = false;
+					for (int k = 0; k < soundsources.Length; k++) {
+						if (soundsources [k].isPlaying) { //maybe: i <= k
+							currplaying = true;
+						}
+					}
+
+					//no notes are playing. safe
+					if (!currplaying) {
 						SoundKeyPressed (i);
-						soundsources [i].Play ();
+						StartCoroutine(fadeAudio (i, true));
 					}
 				} else { //keys are no longer held
 					activeButton(i, false);
-					soundsources [i].Stop ();
+					StartCoroutine(fadeAudio (i, false));
 				}
-			}
-
-
-		}
-
-	}
-
-/*	void SoundLogic()
-	{
-
-		currentlyplaying = false;
-
-		for (int i = 0; i < shortsounds.Length/2; i++) {
-			if (!currentlyplaying) {
-				if (Input.GetKey (KeyCode.J)) {
-					activeButton (5,true);
-					if (Input.GetKeyDown (music_keys [i])) {
-						SoundKeyPressed (i+5);
-						StartCoroutine (fadeAudio (i, true));
-						//soundsources [i+5].Play ();
-						currentlyplaying = true;
-					}
-				}  else if (Input.GetKeyDown (music_keys [i])) {
-					SoundKeyPressed (i);
-					StartCoroutine (fadeAudio (i, true));
-					soundsources [i].Play ();
-					StartCoroutine (fadeAudio (i, true));
-					currentlyplaying = true;
-				}
-			}
-			if (Input.GetKeyUp (music_keys [i])) {
-				activeButton(i, false);
-				if (Input.GetKey (KeyCode.J)) {
-					StartCoroutine (fadeAudio (i+5, false));
-				}  else {
-					StartCoroutine (fadeAudio (i, false));
-				}
-				currentlyplaying = false;
-			} 
-			if(Input.GetKeyUp(KeyCode.J)){
-				activeButton(5,false);
 			}
 		}
 	}
-*/
+
 	IEnumerator fadeAudio(int i, bool fadein){
-		float startVolume;
-		float endVolume;
-		float duration;
-		float startTime = Time.time;
-		if (fadein) {
-			soundsources [i].Play ();
-			startVolume = 0.0f;
-			endVolume = defaultvolume;
-			duration = 0.06f;
-		}  else { //fadeout
-			startVolume = defaultvolume;
-			endVolume = 0.0f;
-			duration = 0.05f;
-		}
-		float inverseDuration = 1.0f / duration;
-		float lerpFactor = 0.0f;
-		while (lerpFactor <= 1.0f && ((fadein && soundsources[i].volume < 1.0f) ||
-			!fadein && soundsources[i].volume > 0.0f)) {
-			lerpFactor += Time.deltaTime / duration;
-			soundsources [i].volume = Mathf.Lerp (startVolume, endVolume, lerpFactor);
-			yield return null;
-		}
+
 
 		if (!fadein) {
+			float fadeoutdur = 0.1f;
+			while (soundsources [i].volume > 0.0f) {
+				soundsources [i].volume -= Time.deltaTime / fadeoutdur;
+				yield return null;
+			}
 			soundsources [i].volume = 0.0f;
 			soundsources [i].Stop ();
-		}  else {
+		}
+
+		if (fadein) {
+			float fadeindur = 0.1f;
+			soundsources [i].volume = 0.0f;
+			soundsources [i].Play ();
+			while (soundsources [i].volume < defaultvolume) {
+				soundsources [i].volume += Time.deltaTime / fadeindur;
+				yield return null;
+			}
 			soundsources [i].volume = defaultvolume;
 		}
+
 	}
+
+*/
 }
