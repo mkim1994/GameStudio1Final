@@ -127,18 +127,10 @@ public class MakeSound : MonoBehaviour {
 	//WATCH OUT
 	void CheckIfSoundsPlaying(){
 		bool soundPlaying = false;
-		for (int i = 0; i < shortsounds.Length; i++) {
-			if (shortsounds [i].isPlaying) {
+		for (int j = 0; j < audios.Count; j++) {
+			if (audios [j].GetComponent<AudioSource>().isPlaying) {
 				soundPlaying = true;
 				break;
-			}
-		}
-		if (!soundPlaying) {
-			for (int j = 0; j < soundsources.Length; j++) {
-				if (soundsources [j].isPlaying) {
-					soundPlaying = true;
-					break;
-				}
 			}
 		}
 		if (!soundPlaying) {
