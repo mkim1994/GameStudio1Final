@@ -284,11 +284,11 @@ public class MakeSound : MonoBehaviour {
 	}
 
 	void SoundSublogic(int i){
-		if (Input.GetKey (music_keys [i%5])) {
+		if (Input.GetKey (music_keys [i % 5])) {
 			keyPressedThisFrame = true;
 			if (!keyPressed) {
 				keyPressed = true;
-				activeButton (i%5, true);
+				activeButton (i % 5, true);
 				bool currplaying = false; 
 				foreach (GameObject go in audios) {
 					if (go.GetComponent<AudioSource> ().clip == audioclips [i]) {
@@ -304,12 +304,18 @@ public class MakeSound : MonoBehaviour {
 					currentlyPlayingAudio [i] = true;
 				}
 			}
-		} else if (currentlyPlayingAudio[i]) {
-			currentlyPlayingAudio [i] = false;
-			activeButton (i%5, false);
+		} else if (currentlyPlayingAudio [i % 5]) {
+			currentlyPlayingAudio [i % 5] = false;
+			activeButton (i % 5, false);
 			GameObject temp = audios [audios.Count - 1];
-			audios.RemoveAt(audios.Count - 1);
-			StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>(), i));
+			audios.RemoveAt (audios.Count - 1);
+			StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), i));
+		} else if (currentlyPlayingAudio [i % 5 + 5]) {
+			currentlyPlayingAudio [i % 5 + 5] = false;
+			activeButton (i % 5, false);
+			GameObject temp = audios [audios.Count - 1];
+			audios.RemoveAt (audios.Count - 1);
+			StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), i));
 		}
 	}
 
