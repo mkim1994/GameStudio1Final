@@ -6,7 +6,6 @@ using System.IO;
 using System;
 using UnityEngine.SceneManagement;
 
-
 public class MakeSound : MonoBehaviour {
 
 	public GameObject AudioPlayer;
@@ -154,7 +153,7 @@ public class MakeSound : MonoBehaviour {
 		string[] fileLines;
 		string[] lineEntries;
 		string fileLine;
-		string[] lineSeparator = new string[] { "\ r\n", "\ r", "\ n" };
+		string[] lineSeparator = new string[] { "\r\n", "\r", "\n" };
 		char[] entrySeparator = new char[] { ',' };
 		fileFullString = transitionMatrixFile.text;
 		fileLines = fileFullString.Split (lineSeparator, StringSplitOptions.None);
@@ -267,11 +266,7 @@ public class MakeSound : MonoBehaviour {
 			int noteSeed = UnityEngine.Random.Range (0, matrixSize);
 			GenerateTriplet (noteSeed);
 			birdsPresent = true;
-<<<<<<< HEAD
-		} else if (!ifFinish) {
-=======
 		}  else if (!ifFinish) {
->>>>>>> master
 			if (i == tripletList [currentActiveTripletIndex] [currentActiveNoteIndex]) {
 
 				//bird UI fill
@@ -300,15 +295,9 @@ public class MakeSound : MonoBehaviour {
 								birdUIfills [b].enabled = false;
 								birdUIfills [b].enabled = true;
 								birdUIfills [b].fillAmount += 1.0f / 3.0f;
-<<<<<<< HEAD
-							}*/
-
-						} else {
-=======
 							} */
 
 						}  else {
->>>>>>> master
 							GameWin ();
 						}
 					}
@@ -322,15 +311,9 @@ public class MakeSound : MonoBehaviour {
 					birdUIfills [b].enabled = false;
 					birdUIfills [b].enabled = true;
 					birdUIfills [b].fillAmount += 1.0f / 3.0f;
-<<<<<<< HEAD
-				}*/
-			} 
-		}  
-=======
 				} */
 			}  
 		}   
->>>>>>> master
 	}
 
 	IEnumerator birdUIfillup(int noteIndex){
@@ -342,43 +325,25 @@ public class MakeSound : MonoBehaviour {
 				birdUIfills [currentActiveTripletIndex].fillAmount += 0.1f;
 				yield return null;
 			}
-<<<<<<< HEAD
-		} else if (noteIndex == 1) {
-			while (birdUIfills [currentActiveTripletIndex].fillAmount < 0.5f) {
-				birdUIfills [currentActiveTripletIndex].enabled = false;
-				birdUIfills [currentActiveTripletIndex].enabled = true;
-			//	birdUIfills [currentActiveTripletIndex].fillAmount += 1.0f/3.0f/2.0f;
-=======
 		}  else if (noteIndex == 1) {
 			while (birdUIfills [currentActiveTripletIndex].fillAmount < 0.5f) {
 				birdUIfills [currentActiveTripletIndex].enabled = false;
 				birdUIfills [currentActiveTripletIndex].enabled = true;
 				//	birdUIfills [currentActiveTripletIndex].fillAmount += 1.0f/3.0f/2.0f;
->>>>>>> master
 				birdUIfills [currentActiveTripletIndex].fillAmount += 0.15f;
 
 				yield return null;
 			}
-<<<<<<< HEAD
-		} else if (noteIndex == 2 && currentActiveTripletIndex == oldBirdIndex) {
-=======
 		}  else if (noteIndex == 2 && currentActiveTripletIndex == oldBirdIndex) {
->>>>>>> master
 			while (birdUIfills [oldBirdIndex].fillAmount < 1.0f) {
 				birdUIfills [oldBirdIndex].enabled = false;
 				birdUIfills [oldBirdIndex].enabled = true;
 				birdUIfills [oldBirdIndex].fillAmount += 0.25f;
 
 				yield return null;
-<<<<<<< HEAD
-			} 
-			oldBirdIndex++;
-		} else if (noteIndex == 2 && currentActiveTripletIndex > oldBirdIndex) {
-=======
 			}  
 			oldBirdIndex++;
 		}  else if (noteIndex == 2 && currentActiveTripletIndex > oldBirdIndex) {
->>>>>>> master
 
 			while (birdUIfills [currentActiveTripletIndex].fillAmount < 1.0f) {
 				birdUIfills [currentActiveTripletIndex].enabled = false;
@@ -386,20 +351,6 @@ public class MakeSound : MonoBehaviour {
 				birdUIfills [currentActiveTripletIndex].fillAmount += 0.25f;
 
 				yield return null;
-<<<<<<< HEAD
-			} 
-		}
-
-	}
-
-	IEnumerator birdUIunfill(bool newBird){
-		if (newBird) {
-			yield return new WaitForSeconds (0.5f);
-
-		} else {
-			yield return new WaitForSeconds (0.1f);
-		}
-=======
 			}  
 		}
 
@@ -412,7 +363,6 @@ public class MakeSound : MonoBehaviour {
 		}  else {
 			yield return new WaitForSeconds (0.1f);
 		}
->>>>>>> master
 		for (int i = birdUIfills.Length-1; i >=0; i--) {
 			while (birdUIfills [i].fillAmount > 0f) {
 				birdUIfills [i].enabled = false;
@@ -431,11 +381,7 @@ public class MakeSound : MonoBehaviour {
 	}
 
 	void SoundSublogic(int i){
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> master
 
 		if (Input.GetKey (music_keys [i % 5])) {
 			keyPressedThisFrame = true;
@@ -459,21 +405,13 @@ public class MakeSound : MonoBehaviour {
 					currentlyPlayingAudio [i] = true;
 				}
 			}
-<<<<<<< HEAD
-		} else if (currentlyPlayingAudio [i]) {
-=======
 		}  else if (currentlyPlayingAudio [i]) {
->>>>>>> master
 			currentlyPlayingAudio [i] = false;
 			activeButton (i % 5, false);
 			GameObject temp = audios [audios.Count - 1];
 			audios.RemoveAt (audios.Count - 1);
 			StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), i));
-<<<<<<< HEAD
-		} else if (Input.GetKeyUp (music_keys [i % 5])) { //bug fix??? hack job
-=======
 		}  else if (Input.GetKeyUp (music_keys [i % 5])) { //bug fix??? hack job
->>>>>>> master
 			for (int u = 0; u < currentlyPlayingAudio.Length; u++) {
 				currentlyPlayingAudio [u] = false;
 			}
@@ -488,21 +426,13 @@ public class MakeSound : MonoBehaviour {
 				}
 			}
 
-<<<<<<< HEAD
-		} 
-=======
 		}  
->>>>>>> master
 
 
 	}
 
 	void SoundLogic(){
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> master
 
 		keyPressedThisFrame = false;
 		for (int i = 0; i < music_keys.Length; i++) {
@@ -540,11 +470,7 @@ public class MakeSound : MonoBehaviour {
 			}
 		}
 
-<<<<<<< HEAD
-			
-=======
 
->>>>>>> master
 
 	}
 
@@ -583,4 +509,3 @@ public class MakeSound : MonoBehaviour {
 		}
 	}
 }
-
