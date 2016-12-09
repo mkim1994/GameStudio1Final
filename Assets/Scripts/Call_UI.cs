@@ -6,7 +6,10 @@ public class Call_UI : MonoBehaviour {
 	private Ray ray;
 	private RaycastHit hit;
 	private Image[] ocarinaImages;
+	//public Image[] birdUIImages;
+
 	public Image[] birdUIImages;
+
 	private bool isFadein;
 	private float alpha;
 
@@ -22,7 +25,11 @@ public class Call_UI : MonoBehaviour {
 		alpha = 0.0f;
 		isFadein = true;
 		ocarinaImages = ocarina.GetComponentsInChildren<Image> ();
+
+
 		birdUIImages = birdUI.GetComponentsInChildren<Image> ();
+
+
 		makeSound =  GameObject.FindWithTag("MusicManager").GetComponent<MakeSound> ();
 
 		SetUIAlphaToZero ();
@@ -46,10 +53,12 @@ public class Call_UI : MonoBehaviour {
 
 	public void ActivateBirdUIButton(int index){
 		birdUIImages [index].CrossFadeAlpha (1, 1, false);
+		birdUIImages [index+4].CrossFadeAlpha (1, 1, false);
 	}
 
 	public void PressBirdUIButton(int index){
 		iTween.PunchScale (birdUIImages [index].gameObject, new Vector3 (1.05f, 1.05f, 1.05f), 1f);
+		iTween.PunchScale (birdUIImages [index+4].gameObject, new Vector3 (1.05f, 1.05f, 1.05f), 1f);
 	}
 
 	public void InitiateGameEndFadeOut(){

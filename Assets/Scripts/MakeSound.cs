@@ -17,11 +17,15 @@ public class MakeSound : MonoBehaviour {
 	private bool keyPressed;
 	private bool keyPressedThisFrame;
 
+	private int oldBirdIndex;
+
 	private bool currentlyplaying;
 	private float defaultvolume = 0.3f;
 
 	public KeyCode[] music_keys;
 	public Image[] ButtonImage;
+
+	public Image[] birdUIfills;
 
 	public TextAsset transitionMatrixFile;
 
@@ -63,6 +67,10 @@ public class MakeSound : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		for (int f = 0; f < birdUIfills.Length; f++) {
+			birdUIfills [f].fillAmount = 0f;
+		}
+
 		song = GetComponent<Songlist> ();
 		characterani = GameObject.FindWithTag("PlayerCharacter").GetComponent<Animator> ();
 		endBk = GameObject.FindWithTag ("SunriseCanvas").GetComponent<Animator> ();
@@ -102,8 +110,10 @@ public class MakeSound : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Cheat ();
-		SoundLogic ();
+		//Cheat ();
+		if (!ifFinish) {
+			SoundLogic ();
+		}
 		CheckIfSoundsPlaying ();
 	}
 
@@ -132,6 +142,10 @@ public class MakeSound : MonoBehaviour {
 		}
 		if (!soundPlaying) {
 			characterani.SetBool ("isplaying", false);
+		}
+		if (soundPlaying && ifFinish) {
+			SoundLogic ();
+			activeButton (5, false);
 		}
 	}
 
@@ -165,7 +179,6 @@ public class MakeSound : MonoBehaviour {
 		tripletList.Add (triplet);
 		birdGenerator.AddNewBird (triplet);
 		callUI.ActivateBirdUIButton (currentMaxTripletIndex);
-		//StartCoroutine (birdGenerator.birdList[birdGenerator.birdList.Count-1].bird.GetComponent<ClickBird>().playSong (true));
 	}
 
 	int GenerateNote(int lastNote){
@@ -196,7 +209,6 @@ public class MakeSound : MonoBehaviour {
 	public void ResetPlaceInSong(bool onNewBird){
 		currentActiveTripletIndex = 0;
 		currentActiveNoteIndex = 0;
-		//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", false);
 		int count = birdGenerator.birdList.Count;
 		if (onNewBird) {
 			count -= 1;
@@ -204,6 +216,10 @@ public class MakeSound : MonoBehaviour {
 		for (int k = 0; k < count; k++){
 			birdGenerator.birdList[k].GetComponent<ClickBird>().SetHappyParticles(false, 0, onNewBird);
 		}
+
+
+		StartCoroutine (birdUIunfill (onNewBird));
+
 	}
 
 	void GameWin(){
@@ -251,10 +267,17 @@ public class MakeSound : MonoBehaviour {
 			int noteSeed = UnityEngine.Random.Range (0, matrixSize);
 			GenerateTriplet (noteSeed);
 			birdsPresent = true;
-		}
-		else if (!ifFinish) {
-			if (i == tripletList[currentActiveTripletIndex][currentActiveNoteIndex]){
-				//ButtonImage [i].gameObject.GetComponent<Animator> ().SetBool ("ifRight", true);
+		} else if (!ifFinish) {
+			if (i == tripletList [currentActiveTripletIndex] [currentActiveNoteIndex]) {
+
+				//bird UI fill
+
+				StartCoroutine (birdUIfillup (currentActiveNoteIndex));
+
+				/*birdUIfills [currentActiveTripletIndex].enabled = false;
+				birdUIfills [currentActiveTripletIndex].enabled = true;
+				birdUIfills [currentActiveTripletIndex].fillAmount += 1.0f/3.0f;*/
+
 				birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().SetHappyParticles (true, currentActiveNoteIndex, false);
 				if (currentActiveNoteIndex < 2) {
 					currentActiveNoteIndex += 1;
@@ -265,7 +288,16 @@ public class MakeSound : MonoBehaviour {
 						if (currentActiveTripletIndex < maxSongLength) {
 							currentMaxTripletIndex += 1;
 							GenerateTriplet (currentLastNote);
+
+
 							ResetPlaceInSong (true);
+
+							/*for (int b = birdUIfills.Length - 1; b >= 0; b--) {
+								birdUIfills [b].enabled = false;
+								birdUIfills [b].enabled = true;
+								birdUIfills [b].fillAmount += 1.0f / 3.0f;
+							}*/
+
 						} else {
 							GameWin ();
 						}
@@ -273,9 +305,75 @@ public class MakeSound : MonoBehaviour {
 				}
 			} else {
 				birdGenerator.birdList [currentActiveTripletIndex].GetComponent<ClickBird> ().EmitConfusedParticle ();
+
 				ResetPlaceInSong (false);
+				StartCoroutine (birdUIunfill (false));
+				/*for (int b = birdUIfills.Length - 1; b >= 0; b--) {
+					birdUIfills [b].enabled = false;
+					birdUIfills [b].enabled = true;
+					birdUIfills [b].fillAmount += 1.0f / 3.0f;
+				}*/
+			} 
+		}  
+	}
+
+	IEnumerator birdUIfillup(int noteIndex){
+		if (noteIndex == 0) {
+			while (birdUIfills [currentActiveTripletIndex].fillAmount < 0.2f) {
+				birdUIfills [currentActiveTripletIndex].enabled = false;
+				birdUIfills [currentActiveTripletIndex].enabled = true;
+				//birdUIfills [currentActiveTripletIndex].fillAmount += 1.0f/3.0f/2.0f;
+				birdUIfills [currentActiveTripletIndex].fillAmount += 0.1f;
+				yield return null;
+			}
+		} else if (noteIndex == 1) {
+			while (birdUIfills [currentActiveTripletIndex].fillAmount < 0.5f) {
+				birdUIfills [currentActiveTripletIndex].enabled = false;
+				birdUIfills [currentActiveTripletIndex].enabled = true;
+			//	birdUIfills [currentActiveTripletIndex].fillAmount += 1.0f/3.0f/2.0f;
+				birdUIfills [currentActiveTripletIndex].fillAmount += 0.15f;
+
+				yield return null;
+			}
+		} else if (noteIndex == 2 && currentActiveTripletIndex == oldBirdIndex) {
+			while (birdUIfills [oldBirdIndex].fillAmount < 1.0f) {
+				birdUIfills [oldBirdIndex].enabled = false;
+				birdUIfills [oldBirdIndex].enabled = true;
+				birdUIfills [oldBirdIndex].fillAmount += 0.25f;
+
+				yield return null;
+			} 
+			oldBirdIndex++;
+		} else if (noteIndex == 2 && currentActiveTripletIndex > oldBirdIndex) {
+
+			while (birdUIfills [currentActiveTripletIndex].fillAmount < 1.0f) {
+				birdUIfills [currentActiveTripletIndex].enabled = false;
+				birdUIfills [currentActiveTripletIndex].enabled = true;
+				birdUIfills [currentActiveTripletIndex].fillAmount += 0.25f;
+
+				yield return null;
 			} 
 		}
+
+	}
+
+	IEnumerator birdUIunfill(bool newBird){
+		if (newBird) {
+			yield return new WaitForSeconds (0.5f);
+
+		} else {
+			yield return new WaitForSeconds (0.1f);
+		}
+		for (int i = birdUIfills.Length-1; i >=0; i--) {
+			while (birdUIfills [i].fillAmount > 0f) {
+				birdUIfills [i].enabled = false;
+				birdUIfills [i].enabled = true;
+				birdUIfills[i].fillAmount -= 0.5f;
+				yield return null;
+
+			}
+		}
+		oldBirdIndex = 0;
 	}
 
 
@@ -284,11 +382,13 @@ public class MakeSound : MonoBehaviour {
 	}
 
 	void SoundSublogic(int i){
-		if (Input.GetKey (music_keys [i%5])) {
+		
+
+		if (Input.GetKey (music_keys [i % 5])) {
 			keyPressedThisFrame = true;
 			if (!keyPressed) {
 				keyPressed = true;
-				activeButton (i%5, true);
+				activeButton (i % 5, true);
 				bool currplaying = false; 
 				foreach (GameObject go in audios) {
 					if (go.GetComponent<AudioSource> ().clip == audioclips [i]) {
@@ -296,6 +396,8 @@ public class MakeSound : MonoBehaviour {
 					}
 				}
 				if (!currplaying && !currentlyPlayingAudio [i]) {
+
+
 					GameObject obj = (GameObject)Instantiate (AudioPlayer, new Vector3 (0, 0, 0), Quaternion.identity);
 					obj.GetComponent<AudioSource> ().clip = audioclips [i];
 					SoundKeyPressed (i);
@@ -304,16 +406,35 @@ public class MakeSound : MonoBehaviour {
 					currentlyPlayingAudio [i] = true;
 				}
 			}
-		} else if (currentlyPlayingAudio[i]) {
+		} else if (currentlyPlayingAudio [i]) {
 			currentlyPlayingAudio [i] = false;
-			activeButton (i%5, false);
+			activeButton (i % 5, false);
 			GameObject temp = audios [audios.Count - 1];
-			audios.RemoveAt(audios.Count - 1);
-			StartCoroutine(fadeOutAudio(temp.GetComponent<AudioSource>(), i));
-		}
+			audios.RemoveAt (audios.Count - 1);
+			StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), i));
+		} else if (Input.GetKeyUp (music_keys [i % 5])) { //bug fix??? hack job
+			for (int u = 0; u < currentlyPlayingAudio.Length; u++) {
+				currentlyPlayingAudio [u] = false;
+			}
+			for (int x = 0; x < 6; x++) {
+				activeButton (x, false);
+			}
+			for (int g = 0; g < audios.Count; g++) {
+				GameObject temp = audios [g];
+				audios.RemoveAt (g);
+				for (int o = 0; o < currentlyFadingOut.Length; o++) {
+					StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), o));
+				}
+			}
+
+		} 
+
+
 	}
 
 	void SoundLogic(){
+		
+
 		keyPressedThisFrame = false;
 		for (int i = 0; i < music_keys.Length; i++) {
 
@@ -323,42 +444,69 @@ public class MakeSound : MonoBehaviour {
 				SoundSublogic(i + 5);
 			} else {
 				activeButton (5, false);
-				/*for(int g = 0; g < audios.Count; g++){
-					StartCoroutine (fadeOutAudio (audios[g].GetComponent<AudioSource>(), i + 5));
-				}*/
 				SoundSublogic (i);
 			}
+
+
 		}
 		if (!keyPressedThisFrame) {
 			keyPressed = false;
 		}
 
+		if (!Input.anyKey){
+			for (int u = 0; u < currentlyPlayingAudio.Length; u++) {
+				currentlyPlayingAudio [u] = false;
+			}
+			for (int x = 0; x < 6; x++) {
+				activeButton (x, false);
+			}
+
+			for (int g = 0; g < audios.Count; g++) {
+				GameObject temp = audios [g];
+				audios.RemoveAt (g);
+				for (int o = 0; o < currentlyFadingOut.Length; o++) {
+					StartCoroutine (fadeOutAudio (temp.GetComponent<AudioSource> (), o));
+				}
+				//print (audios [g]);
+			}
+		}
+
+			
+
 	}
 
 	IEnumerator fadeInAudio(AudioSource aud, int i){
 		float fadeindur = 1.0f;
-		aud.Play ();
-		aud.volume = 0.0f;
-		while (aud.volume < defaultvolume) {
+		if (aud != null) {
+			aud.Play ();
+			aud.volume = 0.0f;
+		}
+		while (aud != null && aud.volume < defaultvolume) {
 			if (currentlyFadingOut [i]) {
 				break;
 			}
 			aud.volume += Time.deltaTime / fadeindur;
 			yield return null;
 		}
-		aud.volume = defaultvolume;
+		if (aud != null) {
+			aud.volume = defaultvolume;
+		}
 	}
 
 	IEnumerator fadeOutAudio(AudioSource aud, int i){
-		float fadeoutdur = 1.0f;
-		currentlyFadingOut [i] = true;
-		while (aud.volume > 0f) {
-			aud.volume -= Time.deltaTime / fadeoutdur;
-			yield return null;
+		if (aud != null) {
+			float fadeoutdur = 1.0f;
+			currentlyFadingOut [i] = true;
+			while (aud != null && aud.volume > 0f) {
+				aud.volume -= Time.deltaTime / fadeoutdur;
+				yield return null;
+			}
+			currentlyFadingOut [i] = false;
+			if (aud != null) {
+				aud.volume = 0f;
+				aud.Stop ();
+				Destroy (aud.gameObject);
+			}
 		}
-		currentlyFadingOut [i] = false;
-		aud.volume = 0f;
-		aud.Stop ();
-		Destroy (aud.gameObject);
 	}
 }

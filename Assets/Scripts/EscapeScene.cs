@@ -13,11 +13,11 @@ public class EscapeScene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (SceneManager.GetActiveScene().name != "Menu" && Input.GetKeyDown (KeyCode.Escape)) {
+		if (SceneManager.GetActiveScene().name != "MelScene" && SceneManager.GetActiveScene().name != "Menu" && Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("Menu");
 		}
 
-		if (SceneManager.GetActiveScene ().name == "MelScene" && Input.GetKeyDown (KeyCode.Return)) {
+		if (SceneManager.GetActiveScene ().name == "MelScene" && Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("MelScene");
 		}
 	}

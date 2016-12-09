@@ -20,7 +20,7 @@ public class MenuActions : MonoBehaviour {
 	}
 
 	public void CreditsPage(){
-		print ("credits");
+		SceneManager.LoadScene ("Credits");
 	}
 
 	public void QuitGame(){
